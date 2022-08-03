@@ -23,7 +23,7 @@
  *  APENAS QUANDO SE ESTÁ EM DESENVOLVIMENTO OU MANUNTENÇÃO
  */
 // Habilitar para simulação
-//#define SIMULADOR
+#define SIMULADOR
 // Habilitar para gráfico no Serial Plotter
 //#define ARDUINO_PLOTTER
 
