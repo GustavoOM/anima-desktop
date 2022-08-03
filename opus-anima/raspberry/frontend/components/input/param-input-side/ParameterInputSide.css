@@ -1,0 +1,84 @@
+.param-input-side {
+	display: flex;
+	flex-direction: column;
+
+	padding: .8rem;
+	width: 31rem;
+	height: 20%;
+	margin-left: 1rem;
+	border-left: .7rem solid #d88f45;
+	border-bottom: .2rem solid #83a6dc;
+}
+
+.param-input-side.-alarm {
+	padding: .37rem .8rem;
+}
+
+.param-input-side .title {
+	font-size: 2.5rem;
+	font-weight: 600;
+	width: 100%;
+	text-align: start;
+	margin-bottom: 1rem;
+	display: flex;
+	justify-content: space-between;
+}
+
+.param-input-side .title .min-max {
+  background-color: #9D9D9D;
+  font-weight: 100;
+  color: white;
+}
+
+.param-input-side .info {
+	display: flex;
+	justify-content: space-between;
+}
+
+.param-input-side .info .unit {
+	font-size: 2rem;
+}
+
+.param-input-side .info .value {
+	font-size: 4.25rem;
+	font-weight: 400;
+	align-self: center;
+	background-color: #d8d8d8;
+	border-bottom: 0.25rem solid #bababa;
+	border-left: 0.25rem solid #bababa;
+	width: 15rem;
+	height: 5rem;
+	line-height: 5rem;
+}
+
+.param-input-side .info .value.-selected {
+	background-color: #debd1a;
+}
+
+.param-input-side .steps-buttons {
+	display: flex;
+	flex-direction: column;
+	position: fixed;
+	top: 15.75rem;
+	height: 74.25rem;
+	right: 91rem;
+}
+
+.param-input-side .steps-buttons .up-btn, 
+.param-input-side .steps-buttons .down-btn {
+	background-color: #4d67b1;
+	height: 50%;
+	width: 30rem;
+	padding: 50% 0;
+	font-size: 20rem;
+	background-image: url("../../../images/seta_baixo.jpg");
+  	background-size: contain;
+ 	background-repeat: no-repeat;
+  	background-position: center;
+  	background-attachment: inherit;
+}
+
+.param-input-side .steps-buttons .up-btn {
+	margin-bottom: 1rem;
+	background-image: url("../../../images/seta_cima.jpg");
+}

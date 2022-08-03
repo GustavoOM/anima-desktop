@@ -1,0 +1,114 @@
+﻿<!DOCTYPE HTML>
+<html translate="no">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="./css/montserrat.css" />
+    <link rel="stylesheet" type="text/css" href="./css/general.css" />
+    <link rel="stylesheet" type="text/css" href="./css/setup.css" />
+    <link rel="stylesheet" type="text/css" href="./components/setup/patient-params/PatientParam.css">
+
+    <script type="text/javascript" src="appSettings.js"></script>
+
+    <title>Ânima - Novo Paciente</title>
+</head>
+
+<body>
+
+    <div id="setup">
+        <setup></setup>
+    </div>
+
+    <script src="libs/vue.min.js"></script>
+    <script src="libs/socket.io.min.js"></script>
+    <script src="libs/kioskboard-aio-1.3.3.min.js"></script>
+
+    <script src="shared/Shared.js"></script>
+    <script src="directives/Visible.js"></script>
+
+    <script src="services/MonitorService.js"></script>
+    <script src="services/SessionService.js"></script>
+    <script src="services/SocketService.js"></script>
+    <script src="components/input/param-input/ParameterInput.js"></script>
+    <script src="components/input/shape-options/ShapeOptions.js"></script>
+    <script src="components/input/shape-options/ShapeOptionItem.js"></script>
+    <script src="components/header/Header.js"></script>
+    <script src="components/alert/Alert.js"></script>
+    <script src="components/clock/Clock.js"></script>
+
+    <script src="components/setup/Setup.js"></script>
+    <script src="components/setup/patient-type/PatientType.js"></script>
+    <script src="components/setup/patient-data/PatientData.js"></script>
+    <script src="components/setup/calibration/Calibration.js"></script>
+    <script src="components/setup/patient-data/PatientDataItem.js"></script>
+    <script src="components/setup/patient-data/PatientDataView.js"></script>
+    <script src="components/setup/patient-params/PatientParameters.js"></script>
+    <script src="components/setup/patient-params/PatientParam.js"></script>
+    <script src="components/setup/patient-alarms/PatientAlarms.js"></script>
+
+    <script>
+        const setup = new Vue({
+            el: "#setup"
+        });
+
+        KioskBoard.Init({
+            keysArrayOfObjects: [{
+                "0": "Q",
+                "1": "W",
+                "2": "E",
+                "3": "R",
+                "4": "T",
+                "5": "Y",
+                "6": "U",
+                "7": "I",
+                "8": "O",
+                "9": "P",
+                "10": "\u0301",
+                "11": "-",
+                "12": "_",
+            }, {
+                "0": "A",
+                "1": "S",
+                "2": "D",
+                "3": "F",
+                "4": "G",
+                "5": "H",
+                "6": "J",
+                "7": "K",
+                "8": "L",
+                "9": "\u00E7",
+                "10": "\u0303",
+                "11": "\u0302",
+            }, {
+                "0": "Z",
+                "1": "X",
+                "2": "C",
+                "3": "V",
+                "4": "B",
+                "5": "N",
+                "6": "M",
+                "7": ".",
+                "8": ";",
+                "9": ":",
+                "10": "/",
+            }],
+            keysJsonUrl: null,
+            specialCharactersObject: null,
+            theme: 'flat',
+            allowRealKeyboard: true,
+            cssAnimations: false,
+            keysFontFamily: '',
+            keysSpacebarText: ' ',
+            keysFontSize: '27px',
+            allowMobileKeyboard: true,
+            autoScroll: false,
+        });
+
+        KioskBoard.Run('.v-board');
+    </script>
+
+</body>
+
+</html>

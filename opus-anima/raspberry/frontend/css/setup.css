@@ -1,0 +1,447 @@
+.btn {
+    border: none;
+}
+
+.btn.-dropdown {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+}
+
+.btn.-accept {
+    padding: .8rem 1.6rem;
+    background-color: #2C3345;
+    color: #ffffff;
+    font-size: 1.6rem;
+}
+
+.btn.-outline {
+    padding: .8rem 1.6rem;
+    border: .1rem solid #2C3345;
+    color: #2C3345;
+    background-color: transparent;
+    font-size: 1.6rem;
+}
+
+.progress-bar {
+    background-color:white;
+    text-align:center;
+}
+
+.progress-bar>.bar {
+    width: 0%;
+    height: 2.45rem;
+    background-color:#7e96da;
+}
+
+.progress-bar>span {
+    font-size: 3rem;
+}
+
+.icon-loader {
+    border: .4em solid #f3f3f3;
+    /* Light grey */
+    border-top: .4em solid #3498db;
+    /* Blue */
+    border-radius: 50%;
+    width: 2.4em;
+    height: 2.4em;
+    margin-left: 16px;
+    animation: spin 2s linear infinite;
+}
+.icon-check, .icon-error {
+    width: 2.4em;
+    height: 2.4em;
+    margin-left: 16px;
+    object-fit: contain;
+}
+
+.btn-group .error-msg {
+    background-color: #d43e3e;
+    color: #ffffff;
+    font-size: 30px;
+    font-weight: 500;
+    margin-right: 2em;
+    padding: 1.6em;
+    border-radius: .4em;
+  }
+
+@keyframes spin {
+0% {
+    transform: rotate(0deg);
+}
+100% {
+    transform: rotate(360deg);
+}
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", Arial, Helvetica, sans-serif;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    background-color: #0d1242;
+}
+
+.new-patient
+{
+    height: 100%;
+    width: 100%;
+    padding: 2rem 14.75rem 8rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.new-patient .content,
+.patient-data .content,
+.patient-params .content,
+.patient-alarms .content {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    flex-wrap: wrap;
+    text-transform: uppercase;
+}
+
+.new-patient .content.-start,
+.patient-data .content.-start,
+.patient-params .content.-start,
+.patient-alarms .content.-start {
+    justify-content: flex-start;
+}
+
+.new-patient .content.-center,
+.patient-data .content.-center,
+.patient-params .content.-center,
+.patient-alarms .content.-center {
+    justify-content: center;
+}
+
+.new-patient .content.-expand,
+.patient-data .content.-expand,
+.patient-params .content.-expand,
+.patient-alarms .content.-expand {
+    flex: 1;
+}
+
+.new-patient .content .title,
+.patient-data .content .title,
+.patient-params .content .title,
+.patient-alarms .content .title {
+    width: 100%;
+    font-size: 4rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+
+.patient-params .content>.params,
+.patient-alarms .content>.params {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.patient-alarms .content div.min-max-pairs>.param-input.-alt:not(:first-of-type) {
+    margin-left: 1.6rem;
+}
+
+.patient-alarms .content div:not(.min-max-pairs)>.param-input {
+    margin-top: 1.6rem;
+}
+
+.new-patient .content .title.-noMbottom,
+.patient-data .content .title.-noMbottom,
+.patient-params .content .title.-noMbottom,
+.patient-alarms .content .title.-noMbottom {
+    margin-bottom: 0;
+}
+
+.new-patient>.content .age {
+    width: 20%;
+    height: 50vh;
+    background-color: #7e96da;
+    border-radius: .2rem;
+}
+
+.new-patient>.content .age input[type=radio]:checked+label {
+    background-color: #debd1a;
+}
+
+.new-patient>.content .age input[type=radio]:checked+label p {
+    color: #2C3345;
+}
+
+.new-patient>.content .age label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: .2rem;
+}
+
+.new-patient>.content .age label img {
+    margin-bottom: 2.4rem;
+    width: 8rem;
+}
+
+.new-patient>.content .age label p {
+    font-size: 2.4rem;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: #ffffff;
+}
+
+.new-patient>.content .spacer {
+    width: 1.6rem;
+}
+
+.patient-data,
+.patient-params,
+.patient-alarms {
+    display: flex;
+    flex-direction: column;
+}
+
+.patient-data .content>.data,
+.patient-params .content>.data,
+.patient-alarms .content>.data {
+    display: flex;
+    align-items: center;
+    width: 50%;
+    flex-wrap: wrap;
+    margin-bottom: 7.9rem;
+}
+
+
+.patient-data .content>.data .item .description,
+.patient-params .content>.data .item .description,
+.patient-alarms .content>.data .item .description {
+    color: #ffffff;
+    font-size: 2.4rem;
+    font-weight: 600;
+    padding-bottom: 1.25rem;
+}
+
+.patient-data .content>.data .item .value,
+.patient-params .content>.data .item .value,
+.patient-alarms .content>.data .item .value {
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+    font-size: 3rem;
+    font-weight: 400;
+    position: relative;
+    min-height: 4.2rem;
+}
+
+.patient-data .content>.data .item .value.-center {
+    margin: .75rem 0;
+}
+
+.patient-data .content>.data .item .value.-wrapped,
+.patient-params .content>.data .item .value.-wrapped,
+.patient-alarms .content>.data .item .value.-wrapped {
+    flex-wrap: wrap;
+}
+
+.patient-data .content>.data .item .value img,
+.patient-params .content>.data .item .value img,
+.patient-alarms .content>.data .item .value img {
+    width: 2.4rem;
+    margin-right: .8rem;
+    align-self: center;
+}
+
+.patient-data .content>.data .item .value span,
+.patient-params .content>.data .item .value span,
+.patient-alarms .content>.data .item .value span {
+    align-self: center;
+}
+
+
+.patient-data .content>.data .item .value input[type=radio]:checked+label,
+.patient-params .content>.data .item .value input[type=radio]:checked+label,
+.patient-alarms .content>.data .item .value input[type=radio]:checked+label {
+    background-color: #debd1a;
+    color: #2C3345;
+}
+
+.patient-data .content > .data .item .value input,
+.patient-params .content > .data .item .value input,
+.patient-alarms .content > .data .item .value input {
+    font-size: 3rem;
+    padding: 1.75rem 2rem;
+    border: none;
+    color: #2C3345;
+    font-weight: 500;
+    background-color: #ffffff;
+    width: 18rem;
+}
+
+.patient-data .content>.data .item .value input+span,
+.patient-params .content>.data .item .value input+span,
+.patient-alarms .content>.data .item .value input+span {
+    position: absolute;
+    right: 9.8rem;
+    color: #2C3345;
+    background-color: white;
+}
+
+.patient-data .content>.data .item .value input:focus,
+.patient-params .content>.data .item .value input:focus,
+.patient-alarms .content>.data .item .value input:focus {
+    color: #2C3345;
+    font-weight: 500;
+    border: none;
+}
+
+.patient-data .content>.data .item .value input:focus+span,
+.patient-params .content>.data .item .value input:focus+span,
+.patient-alarms .content>.data .item .value input:focus+span {
+    color: #2C3345;
+}
+
+.patient-data .content>.data .item .value label,
+.patient-params .content>.data .item .value label,
+.patient-alarms .content>.data .item .value label {
+    background-color: #7e96da;
+    color: #ffffff;
+    padding: 1.75rem;
+    margin-right: 2.4rem;
+    border-radius: .2rem;
+    min-width: 27rem;
+    text-align: center;
+}
+
+.patient-data .content>.data .item .value label.-spaced,
+.patient-params .content>.data .item .value label.-spaced,
+.patient-alarms .content>.data .item .value label.-spaced {
+    margin-right: 3.35rem;
+    min-width: 20rem;
+    text-align: center;
+    font-weight: 700;
+}
+
+.patient-data .content>.data .item:not(:first-of-type),
+.patient-params .content>.data .item:not(:first-of-type),
+.patient-alarms .content>.data .item:not(:first-of-type) {
+    margin-top: 4.75rem;
+}
+
+.patient-data .content .curves,
+.patient-params .content .curves,
+.patient-alarms .content .curves {
+    color: #ffffff;
+    height: 13.6rem;
+    padding: .8rem;
+    flex: 1;
+    background-color: #7e96da;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 0;
+    min-width: 12rem;
+}
+
+patient-alarms .content div:not(#paramWrapper)>.curves {
+    margin-left: .2rem;
+}
+
+.patient-data .content .curves .curve,
+.patient-params .content .curves .curve,
+.patient-alarms .content .curves .curve {
+    width: 50%;
+    height: 50%;
+    border: .1rem solid #2C3345;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.patient-data .content .curves .curve.-selected,
+.patient-params .content .curves .curve.-selected,
+.patient-alarms .content .curves .curve.-selected {
+    background-color: #debd1a;
+}
+
+.btn-group {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.btn-group .btn {
+    font-size: 5.4rem;
+    font-weight: 500;
+    padding: 2.5rem 4.75rem;
+}
+
+.btn-group .btn:not(:first-of-type) {
+    margin-left: 2.75rem;
+}
+
+.btn-group .btn.-continue {
+    background-color: #63b819;
+    color: #ffffff;
+    border: .1rem solid #63b819;
+}
+
+.btn-group .btn.-calib {
+    background-color: #debd1a;
+    color: #000000;
+    border: .1rem solid #debd1a;
+}
+
+.btn-group .btn.-continue.-disable {
+    background-color: #9d9d9d;
+    color: #ffffff;
+    border: .1rem solid #9d9d9d;
+}
+
+.btn-group .btn.-cancel {
+    border: .1rem solid #ffffff;
+    background-color: transparent;
+    color: #ffffff;
+}
+
+.btn-group .btn:active {
+    background-color: #debd1a;
+}
+
+.-showFlex {
+    display: flex;
+}
+
+.-showBlock {
+    display: block;
+}
+
+.-hide {
+    display: none;
+}
+
+.-hidden {
+    visibility: hidden;
+}
+
+label.mode-option {
+    letter-spacing: .2rem; 
+    word-spacing: .1rem;
+}

@@ -1,0 +1,69 @@
+﻿<!DOCTYPE HTML>
+<html translate="no">
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width,  initial-scale=1.0">
+        
+        <link rel="stylesheet" type="text/css" href="./css/montserrat.css">
+        <link rel="stylesheet" type="text/css" href="./css/general.css">
+        <link rel="stylesheet" type="text/css" href="./css/alarm-history.css">
+        <link rel="stylesheet" type="text/css" href="./components/graph/Graph.css">
+        <link rel="stylesheet" type="text/css" href="./components/input/param-input/ParameterInput.css">
+        <link rel="stylesheet" type="text/css" href="./components/input/param-input-side/ParameterInputSide.css">
+        <link rel="stylesheet" type="text/css" href="./components/modes/ModeSelectSidebar.css">
+        <link rel="stylesheet" type="text/css" href="./components/alarms/Alarms.css">
+        
+        <script type="text/javascript" src="appSettings.js"></script>
+        
+        <title>Ânima</title>
+    </head>
+
+    <body>
+        
+        <div id="monitor">
+            <monitor></monitor>
+        </div>
+
+        <script src="libs/vue.min.js"></script>
+        <script src="libs/d3.v4.min.js"></script>
+        <script src="libs/socket.io.min.js"></script>
+
+        <script src="shared/Shared.js"></script>
+
+        <script src="services/MonitorService.js"></script>
+        <script src="services/SessionService.js"></script>
+        <script src="services/SocketService.js"></script>
+
+        <script src="directives/Visible.js"></script>
+        <script src="components/alarm-history/AlarmHistory.js"></script>
+        <script src="components/alarm-history/HistoryRow.js"></script>   
+        <script src="components/alarm-history/ParameterInfo.js"></script>
+        <script src="components/alarm-history/pagination/Pagination.js"></script>
+        <script src="components/alert/Alert.js"></script>
+        <script src="components/confirm-window/ConfirmationWindow.js"></script>
+        <script src="components/sensor/Sensor.js"></script>
+        <script src="components/modes/ModeSelect.js"></script>
+        <script src="components/modes/ModeSelectSidebar.js"></script>
+        <script src="components/setup/patient-data/PatientDataView.js"></script>
+        <script src="components/setup/patient-data/PatientDataItem.js"></script>
+        <script src="components/input/param-input/ParameterInput.js"></script>
+        <script src="components/input/param-input-side/ParameterInputSide.js"></script>
+        <script src="components/input/shape-options/ShapeOptions.js"></script>
+        <script src="components/input/shape-options/ShapeOptionItem.js"></script>
+        <script src="components/graph/Graph.js"></script>
+        <script src="components/clock/Clock.js"></script>
+        <script src="components/alarms/Alarms.js"></script>
+        <script src="components/monitor/Monitor.js"></script>
+
+        <script>
+
+            const monitor = new Vue({
+                el: "#monitor"
+            });
+
+        </script>
+        
+    </body>
+
+</html>

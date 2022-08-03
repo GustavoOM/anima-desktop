@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/montserrat.css">
+    <link rel="stylesheet" href="./css/general.css">
+    <link rel="stylesheet" href="./css/test-cycle.css">
+
+    <script type="text/javascript" src="appSettings.js"></script>
+
+    <title>Ciclo de Testes</title>
+</head>
+
+<body>
+    <div id="tester" class="test-wrapper">
+        <test-cycle></test-cycle>
+    </div>
+
+    <script src="libs/vue.min.js"></script>
+    <script src="libs/socket.io.min.js"></script>
+
+    <script src="directives/Visible.js"></script>
+    
+    <script src="services/MonitorService.js"></script>
+    <script src="services/SessionService.js"></script>
+    <script src="services/SocketService.js"></script>
+    <script src="components/test-cycle/TestCycle.js"></script>
+    <script src="components/test-cycle/TestGroup.js"></script>
+    <script src="components/test-cycle/TestAudio.js"></script>
+    <script src="components/test-cycle/TestItem.js"></script>
+    <script src="components/header/Header.js"></script>
+    <script src="components/alert/Alert.js"></script>
+    <script src="components/clock/Clock.js"></script>
+
+
+    <script>
+
+        const tester = new Vue({
+            el: "#tester"
+        });
+
+    </script>
+</body>
+
+</html>

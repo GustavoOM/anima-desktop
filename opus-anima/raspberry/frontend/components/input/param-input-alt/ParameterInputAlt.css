@@ -1,0 +1,158 @@
+.param-input-alt {
+  display: flex;
+  padding: .8rem;
+  width: 31rem;
+  height: 20%;
+  margin-left: 1rem;
+  border-left: .7rem solid #d88f45;
+  border-bottom: .2rem solid #83a6dc;
+}
+
+.patient-params .param-input-alt {
+  min-width: 22rem;
+}
+
+.param-input-alt > .no-controls {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.param-input-alt .title-alt {
+  font-size: 2.5rem;
+  font-weight: 600;
+  width: 100%;
+  text-align: start;
+  margin-bottom: 1rem;
+}
+
+.param-input-alt .title-alt span {
+  word-break: break-all;
+}
+
+
+.param-input-alt .title-alt .min-max {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #616674;
+  background-color: #ffffff;
+}
+
+.param-input-alt .info-alt {
+  display: flex;
+  justify-content: space-between;
+}
+
+.param-input-alt .info-alt .unit {
+  font-size: 2rem;
+}
+
+.param-input-alt .info-alt .value, #inner-input-alt {
+  font-size: 4.25rem;
+  font-weight: 400;
+  align-self: center;
+  background-color: #d8d8d8;
+  border-bottom: 0.25rem solid #bababa;
+  border-left: 0.25rem solid #bababa;
+  width: 15rem;
+  height: 5rem;
+  line-height: 5rem;
+}
+
+/* 
+#inner-input-alt {
+
+} */
+
+
+/* Added after behaviour migration */
+
+.parameter-input {
+    background: transparent;
+    color:#2C3345;
+    text-align: center;
+    font-size: 3.2rem;
+    font-weight: 700;
+    border:none;
+    width: 75%;
+}
+
+.-fix-paramater-name-size {
+    font-size: 1.8rem;
+    margin-bottom: .8rem;
+    font-weight: 500;
+}
+
+/* 
+div:not(#paramWrapper)>.param-input:not(:last-child) {
+} */
+
+.param-input-alt .with-controls {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+}
+
+  .param-input-alt .with-controls .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: firebrick;
+  }
+
+  .param-input-alt .with-controls .min-max {
+    font-size: 2.4rem;
+  }
+/* 
+  .param-input-alt .with-controls .input-unit {
+  } */
+
+.param-input-alt .input-unit .parameter-input {
+  text-align: center;
+  color: #000;
+}
+
+.param-input-alt .with-controls .input-unit .parameter-input {
+  font-size: 4rem;
+  text-align: center;
+}
+
+.param-input-alt .with-controls .input-unit .parameter-unit {
+  font-size: 1.5rem;
+  margin-top: 1rem;
+  white-space: break-spaces;
+  word-break: break-word;
+}
+
+.param-input-alt .accept-controls {
+  display: flex;
+}
+
+.param-input-alt .accept-controls button {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.param-input-alt .accept-controls button.cancel-button {
+  background-color: #d43e3e;
+  color: white;
+  border-radius: 0 0 0 .8rem;
+  border-top: .1rem solid;
+}
+.param-input-alt .accept-controls button.confirm-button {
+  background-color: #4d67b1;
+  color: black;
+  border-radius: 0 0 .8rem 0;
+}
+
+.param-input-alt .accept-controls button.confirm-button span {
+  font-size: 2.5rem
+}
+
+
+.param-input-alt .accept-controls button.cancel-button span {
+  font-size: 3.5rem;
+  font-weight: 600;
+  font-family: monospace;
+  transform: scaleY(0.75);
+  display: inline-block;
+}

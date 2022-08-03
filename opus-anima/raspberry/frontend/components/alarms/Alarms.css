@@ -1,0 +1,78 @@
+/* Alarms */
+
+.alarms-config {
+	height: 100%;
+}
+
+.alarms-config .main-title {
+	margin-left: 1rem;
+}
+
+.alarms-config .min-max-section, .alarms-config .others-section {
+	display: flex;
+	align-items: center;
+	margin-bottom: 1rem;
+}
+
+.alarms-config .others-section {
+	flex-wrap: wrap;
+}
+
+.min-section > span, .max-section > span {
+	font-size: 3rem;
+	font-weight: 500;
+	background-color: #9D9D9D;
+	display: flex;
+	justify-content: center;
+	margin-left: 1rem;
+}
+
+/* Adjustments for max-section */
+
+.min-max-section .max-section .param-input-side {
+	border: 0;
+	border-left: .2rem solid #83a6dc;
+	border-bottom: .2rem solid #83a6dc;
+}
+
+.min-max-section .max-section .param-input-side .title,
+.min-max-section .max-section .param-input-side .info .unit {
+	color: #d1d2dc;
+}
+
+.min-max-section .max-section .param-input-side .info {
+	flex-direction: row-reverse;
+}
+
+/* Adjustments for other alarms */
+
+.others-section .param-input-side {
+	width: 30rem;
+}
+
+/* Bottom buttons */
+.sidemenu .alarms .bottom {
+	position: absolute;
+	left: -2.4rem;
+	top: 65.4rem;
+	display: flex;
+	width: 100%;
+}
+
+.sidemenu .alarms .bottom .btn.-outline {
+	margin-left: auto;
+	margin-right: 2.75rem;
+}
+
+.btn.-outline.-nightmode {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 400;
+	margin-left: auto;
+}
+
+.btn.-outline.-nightmode.-active {
+	background-color: #debd1a; 
+	color: #0d1242;
+}

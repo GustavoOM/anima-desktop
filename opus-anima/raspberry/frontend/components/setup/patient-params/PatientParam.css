@@ -1,0 +1,163 @@
+/* Param */
+
+.param-input {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  height: 17.6rem;
+  padding: .8rem;
+  flex: 1;
+  background-color: #0d1242;
+  color: #ffffff;
+  min-width: 32rem;
+}
+
+.param-input .control {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  width: 100%;
+  background-image: url("../../../images/indicador_parametro-2.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain,cover;
+}
+
+.param-input .control .value {
+  background-color: transparent;
+  margin-top: 3rem;
+  font-size: 4.25rem;
+  width: 12rem;
+  font-weight: 400;
+  color: #fff;
+  text-align: center;
+  outline: none;
+  border: none;
+  z-index: 1;
+}
+
+.param-input .control .title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.param-input .control .unit {
+  margin-top: 2rem;
+  font-size: 1.6rem;
+}
+
+.param-input .control .small-title {
+  margin-top: -2rem;
+  position: fixed;
+  color: white;
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+.param-input .title .min-max {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #616674;
+  background-color: #ffffff;
+}
+
+/* Fixes */
+
+.-fix-paramater-name-size {
+  font-size: 1.8rem;
+  margin-bottom: .8rem;
+  font-weight: 500;
+}
+
+/* Selected Param */
+
+.param-input.-selected {
+  z-index: 10;
+}
+
+.param-input .control.-selected {
+  background-image: url("../../../images/indicador_parametro_selecionado-2.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain,cover;
+}
+
+.param-input .control.-selected .value {
+  color: #2C3345;
+  font-weight: 500;
+  z-index: 10;
+}
+
+.param-input .control.-selected .title .min-max {
+  background-color: #2C3345;
+  color: #FFD584;
+}
+
+/* Increment and Decrement Buttons */
+
+.param-input .steps-buttons {
+  display: flex;
+  justify-content: space-between;
+  font-size: 5rem;
+  position: fixed;
+  width: 22rem;
+}
+
+.param-input .steps-buttons .up-btn,
+.param-input .steps-buttons .down-btn {
+  padding: 0 0.5rem 0 0.5rem;
+  background-color: #4d67b1;
+  width: 3.8rem;
+}
+
+.param-input .steps-buttons .up-btn {
+  border-radius: 0 0 0 1rem;
+}
+
+.param-input .steps-buttons .down-btn {
+  border-radius: 0 0 1rem 0;
+}
+
+/* Cancel and Accept Buttons */
+
+
+.param-input .accept-controls {
+  display: flex;
+  position: fixed;
+  width: 22rem;
+  margin-top: 12rem;
+}
+
+.param-input .accept-controls button {
+    width: 100%;  
+    border: 0; 
+}
+.param-input .accept-controls button.cancel-button {
+    background-color: #d43e3e; color: white; 
+    border-radius: 0 0 0 .8rem;
+    border-top: .1rem solid;
+}
+.param-input .accept-controls button.confirm-button {
+    background-color: #4d67b1; color: white;
+    border-radius: 0 0 .8rem 0;
+    border-left: .1rem solid;
+}
+
+.param-input .accept-controls button.confirm-button span {
+    font-size: 2.8rem
+}
+
+.param-input .accept-controls button.cancel-button span {
+    font-size: 3.5rem;
+    font-weight: 600;
+    font-family: monospace;
+    transform: scaleY(0.75);
+    display: inline-block;
+}
+
+

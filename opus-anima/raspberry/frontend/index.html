@@ -1,0 +1,47 @@
+﻿<!DOCTYPE HTML>
+<html translate="no">
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" type="text/css" href="./css/montserrat.css" />
+        <link rel="stylesheet" type="text/css" href="./css/general.css" />
+        <link rel="stylesheet" type="text/css" href="./css/setup.css" />
+        <link rel="stylesheet" type="text/css" href="./components/input/param-input/ParameterInput.css" />
+
+        <script type="text/javascript" src="appSettings.js"></script>
+        
+        <title>Ânima - Start</title>
+    </head>
+
+    <body>
+        
+        <div id="index">
+            <index></index>
+        </div>
+
+        <script src="libs/vue.min.js"></script>
+
+        <script src="shared/Shared.js"></script>
+        <script src="directives/Visible.js"></script>
+        
+        <script src="services/MonitorService.js"></script>
+        <script src="services/SessionService.js"></script>
+        <script src="components/input/param-input/ParameterInput.js"></script>
+        <script src="components/input/shape-options/ShapeOptions.js"></script>
+        <script src="components/input/shape-options/ShapeOptionItem.js"></script>
+
+        <script src="components/index/Index.js"></script>
+
+        <script>
+
+            const index = new Vue({
+                el: "#index"
+            });
+
+        </script>
+
+    </body>
+
+</html>

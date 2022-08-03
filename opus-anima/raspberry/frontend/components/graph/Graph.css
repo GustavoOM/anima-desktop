@@ -1,0 +1,58 @@
+.x-axis line{
+    stroke: white;
+}
+  
+.x-axis path{
+  stroke: #4d67b1;
+  stroke-width: 0.3rem;
+}
+
+.x-axis text{
+  fill: rgba(255, 255, 255, 0);
+  font-size: 1rem;
+}
+
+.y-axis line{
+  stroke: black;
+}
+
+.y-axis path{
+stroke: #0d1242;
+}
+
+.y-axis text{
+  fill: white;
+  font-size: 1rem;
+}
+
+.x-axis-loop line{
+  stroke: white;
+}
+
+.x-axis-loop path{
+stroke: #4d67b1;
+stroke-width: 0.3rem;
+}
+
+.x-axis-loop text {
+  fill: white;
+  font-size: 1rem;
+}  
+
+.y-axis-loop line{
+  stroke: black;
+}
+
+.y-axis-loop path{
+  stroke: #4d67b1;
+  stroke-width: 0.3rem;
+}
+
+.y-axis-loop text{
+  fill: white;
+  font-size: 1rem;
+}
+
+.tick line {
+  stroke: white;
+}

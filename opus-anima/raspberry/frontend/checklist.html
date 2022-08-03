@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="./css/pacienteInfo.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/vue.min.js"></script>
+    <title>Ânima</title>
+</head>
+
+<body>
+
+    <div id="checklist">
+        <span class="screen-title"> Checklist </span>
+
+        <section>
+            <messages v-for="message in mensages">
+            </messages>
+            <a v-show="finish" href="pacienteInfo.html"> Get pacient info</a>
+        </section>
+    </div>
+
+    <script>
+
+        const app = new Vue({
+            el: "#checklist",
+            data: {
+                mensagens: [],
+                finish: false
+            },
+            created: function(){
+                setTimeout(function(){
+                    //new message
+
+                    if(this.mensagens.lenght == 10){
+                        this.finish = true;
+                        return;
+                    }
+
+                },2000);
+            },
+            methods: {
+
+            }
+        })
+    </script>
+
+</body>
+
+</html>

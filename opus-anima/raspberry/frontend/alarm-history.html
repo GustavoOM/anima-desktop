@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/alarm-history.css">
+    <title>Histórico de Alarmes</title>
+    
+    <script type="text/javascript" src="appSettings.js"></script>
+    
+</head>
+
+<body>
+    <div id="history" class="wrapper">
+        <alarm-history></alarm-history>
+    </div>
+
+    <script src="libs/vue.min.js"></script>
+
+    <script src="directives/Visible.js"></script>
+    
+    <script src="services/MonitorService.js"></script>
+    <script src="components/alarm-history/AlarmHistory.js"></script>
+    <script src="components/alarm-history/HistoryRow.js"></script>
+    <script src="components/alarm-history/ParameterInfo.js"></script>
+
+    <script>
+
+        const history = new Vue({
+            el: "#history"
+        });
+
+    </script>
+
+</body>
+
+</html>
