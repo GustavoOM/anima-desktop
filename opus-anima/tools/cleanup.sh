@@ -18,6 +18,6 @@ python3 -m venv animaenv
 source animaenv/bin/activate
 pip install -r requirements.txt
 
-sudo apt install sqlite3=3.27.2-3+deb10u1 -y
+sudo apt install sqlite3
 cd api
 sqlite3 persist.db < initialize_db.sql
