@@ -1,24 +1,24 @@
 #!/bin/bash
-cd /home/gustavo/Documents/opus-anima
 
+# Setup directory
+cd /home/$USER
+mkdir Documents
+cd Documents/opus-anima
 APP_DIR=$PWD
 
-# Check if raspberry has internet connection
-ping -c 1 google.com
-if [ $? -ne 0 ]
-then
-    echo "ERROR: Raspberry Pi is not connected to internet"
-    exit 1
-fi
-
+###
 sudo apt-get update
-
 sudo apt-get install curl
 
+# Install python 3.8
+sudo apt install software-properties-common
+sudo add-apt-repository ppa:deadsnakes/ppa -y
+sudo apt install python3.8
+
 # Install arduino-cli
-cd /home/gustavo
+cd /home/$USER
 sudo curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
-PATH=$PATH:/home/gustavo/bin
+PATH=$PATH:/home/$USER/bin
 
 # Setup arduino-cli
 arduino-cli core update-index
@@ -32,16 +32,6 @@ then
     exit 1
 fi
 
-#Conexão com os jumpers
-# Enable serial port and disable serial console
-#if [ ! $(cat /boot/config.txt | grep enable_uart) ]
-#then
-#    echo enable_uart=1 | sudo tee -a /boot/config.txt
-#fi
-# já comentado antes # echo $(awk '{print substr($0,index($0,$2))}' /boot/cmdline.txt) | sudo tee /boot/cmdline.txt
-#sudo sed -i 's/console=serial0,115200 //' /boot/cmdline.txt
-
-
 # Compile and upload code to Arduino
 cd $APP_DIR/arduino/respirador_v0/_main
 # get serial port from board
@@ -53,6 +43,10 @@ sudo sed -i '1s/^\xEF\xBB\xBF//' _global.cpp
 # compile and upload code
 arduino-cli compile -b $FQBN
 arduino-cli upload -p $PORT -b $FQBN
+
+# Install dependencies, setup the virtual environment and database
+cd $APP_DIR/setup
+bash cleanup.sh
 
 # Environment access key
 KEY=$(date | md5sum | cut -d" " -f1)
