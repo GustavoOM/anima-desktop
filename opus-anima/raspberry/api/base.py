@@ -244,7 +244,7 @@ API_URL = 'http://' + IP_ADDRESS + ':' + PORT
 
 ser = None
 if VENTILATOR_MODE:
-    ser = serial.Serial("/dev/serial/by-id/usb-03eb_6124-if00", baudrate=115200, timeout=2)
+    ser = serial.Serial("/dev/serial/by-id/usb-Arduino_LLC_Arduino_Due-if00", baudrate=115200, timeout=2)
 
 
 """
