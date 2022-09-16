@@ -12,7 +12,6 @@ from logger import engine
 from write_serial import write_serial
 from application import start_api
 from read_serial import read_serial
-from audioled import setup_audioled
 
 db = engine.connect()
 was_shutdown = text("SELECT shutdown FROM STATE;")
@@ -46,8 +45,7 @@ def main():
 	metadata = {"write_messages": write_serial,
 				"api": start_api,
 				"read_messages": read_serial,
-				"front": run_front,
-				"audioled": setup_audioled}
+				"front": run_front}
 	sentinels = {}
 
 	audioled_signarr = Array("i", range(4))
@@ -62,7 +60,6 @@ def main():
 	add_process("api", metadata, sentinels, shared=audioled_signarr)
 	add_process("read_messages", metadata, sentinels)
 	add_process("front", metadata, sentinels)
-	add_process("audioled", metadata, sentinels, shared=audioled_signarr)
 
 	try:
 		while True:
