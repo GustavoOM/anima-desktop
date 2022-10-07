@@ -23,9 +23,10 @@ python3.8 -m pip install -r requirements.txt
 
 # Install arduino-cli
 cd /home/$USER
+sudo usermod -a -G dialout $USER
 sudo curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
 PATH=$PATH:/home/$USER/bin
-sudo usermod -a -G dialout $USER
+
 
 # Setup arduino-cli
 sudo /home/$USER/bin/arduino-cli core update-index
