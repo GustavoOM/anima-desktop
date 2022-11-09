@@ -10,7 +10,7 @@ import requests
 from requests.exceptions import ConnectionError
 
 import socket
-portSocket = 8069
+portSocket = 8083
 
 class Writer:
     
@@ -41,37 +41,13 @@ class Writer:
     def loop(self):
         try:
             while True:
-                if len(self.wait_queue) > 0:
-                    self.manage_wait_queue()
                 is_there_data = self.api_conn.poll(timeout=0.1)
                 if is_there_data:
                     self.transmit_message()
-                is_there_data = self.reader_conn.poll(timeout=0.01)
-                while is_there_data:
-                    self.check_response()
-                    is_there_data = self.reader_conn.poll(timeout=0.01)
         finally:
             self.client_socket.close()
             ser.close()
             self.listener.close()
-
-    def manage_wait_queue(self):
-        for item in self.wait_queue:
-            if time() - item["tSent"] > 1:
-                item["nTimout"] += 1
-                item["tSent"] = time()
-                if item["nTimout"] < 5:
-                    print("[WRITER] Timeout warning, sending again:", item)
-                    for _ in range(3):
-                        self.send_message(item["msg"])
-                        sleep(0.05)
-                else:
-                    self.wait_queue.remove(item)
-                    try:
-                        requests.post(API_URL + "/comm-alert", json={"commActor": "writer"})
-                    except ConnectionError:
-                        print("[WRITER] Could not reach API. Dropping Message.")
-                    print("[WRITER] TIMEOUT ERROR:", item)
 
     def transmit_message(self):
         msg_obj = self.api_conn.recv()

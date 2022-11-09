@@ -7,7 +7,7 @@ from base import ( AUTOTESTS_2API_MSG, EXFLOW_CALIB_2API_MSG, FLUXSENS_MSG,
 from time import time
 from multiprocessing.connection import Client
 import socket
-portSocket = 8068
+portSocket = 8084
 
 def forward_message(data):
     if SHOW_READ_SERIAL:
@@ -65,7 +65,6 @@ def notify_idle():
         print("[READER] Idle for a long time")
 
 def read_serial():
-    print("ENTREI NO READ SERIAL!!!!!!")
     global writer_conn
     writer_conn = Client(("localhost", 6000))
     writer_conn.send("reader")

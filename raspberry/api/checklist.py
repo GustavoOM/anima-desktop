@@ -40,9 +40,6 @@ class Checklist():
 			self.activated_groups[test_group] = False
 
 	def check_progress(self, group):
-		if group == "communication":
-			if time() - self.comm_test_init > 0.5:
-				self.check_response({"test": 1, "fail": 1})
 
 		not_implemented = []
 		completed = True
