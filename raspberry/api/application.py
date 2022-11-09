@@ -74,11 +74,6 @@ def send_init_param():
 	"""
 	Send initial parameters to the controller
 	"""
-	writer_conn.send({"type": 31, "data": manager.pressens_parameters()[0]})
-	for i in range(3):
-		writer_conn.send({"type": 33, "data": manager.fluxsens_parameters()[i]})
-	writer_conn.send({"type": 35, "data": manager.exavalv_parameters()[0]})
-	writer_conn.send({"type": 37, "data": manager.aopvalvs_parameters()[0]})
 	return jsonify({"delivered": True})
 
 
@@ -202,9 +197,12 @@ def check_autotest(group):
 	"""
 	Check if an started autotest is currently running, finished corrected or exitted with failure.
 	"""
+
 	completed, failure, message = tester.check_progress(group)
-	return jsonify({"delivered": True, "id": group, "completed": completed, 
-		"failure": failure, "message":message})
+	jsonRetorno = {"delivered": True, "id": group, "completed": completed, 
+		"failure": failure, "message":message}
+	print("/test/check-<group>\n",jsonRetorno)
+	return jsonify(jsonRetorno)
 
 
 @app.route("/test/info", methods=['GET'])
@@ -220,6 +218,7 @@ def report_autotest():
 	"""
 	Report the result of some autotest
 	"""
+	print(request.json)
 	tester.check_response(request.json)
 	return jsonify({"delivered": True})
 	

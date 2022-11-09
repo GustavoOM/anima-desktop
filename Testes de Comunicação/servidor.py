@@ -1,13 +1,8 @@
-############socket servidor ###################
-
-
-#!/usr/bin/python3
 import socket
-MEU_IP = '127.0.0.1'  
- # Endereco IP do Servidor, '' = significa que ouvira em todas as interfaces
+import sys
 
-MINHA_PORTA = 8000  
-# Porta que o Servidor vai ouvir 
+MEU_IP = '127.0.0.1'
+MINHA_PORTA = int(sys.argv[1])  
 
 tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # socket.AF_INET = INET (exemplo IPv4)sockets, #socket.SOCK_STREAM=usaremos TCP
@@ -16,21 +11,29 @@ tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 testa_mensagem = ''
 MEU_SERVIDOR = (MEU_IP, MINHA_PORTA) 
 tcp.bind(MEU_SERVIDOR)
- # faz o bind do ip e a porta para que possa comecar a ouvir
 
 tcp.listen(1) 
-#comeca a ouvir
 
 conexao, docliente =tcp.accept()
 print ("o cliente = ", docliente, " se conectou")
 #pega o ip do cliente que conectou
 
-while 1:
- Mensagem_Recebida = conexao.recv(1024)
- #Mensagem recebida do cliente 
- if testa_mensagem != Mensagem_Recebida:  
- #aqui verifica se exite mensagem nova  
-  print ("Recebi = ",Mensagem_Recebida," , Do cliente", docliente)
+try:
+ 
+  while 1:
+    Mensagem_Recebida = conexao.recv(1024)
+    #Mensagem recebida do cliente 
+    if testa_mensagem != Mensagem_Recebida:
+      if Mensagem_Recebida == b"EOT":
+        break  
+    #aqui verifica se exite mensagem nova  
+      print ("Recebi = ",Mensagem_Recebida," , Do cliente", docliente)
+  conexao.close()
+  
 
-conexao.close()
-#fim do socket
+except KeyboardInterrupt:
+  print ('KeyboardInterrupt exception is caught')
+  conexao.close()
+
+finally:
+    conexao.close()

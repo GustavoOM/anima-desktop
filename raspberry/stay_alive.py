@@ -22,7 +22,8 @@ def kill_all(processes):
 
 def run_front():
 	try:
-		sub = Popen(["chromium-browser", "--kiosk", "--disable-features=TranslateUI", "--noerrdialogs", "--disable-infobars", "frontend/test-cycle.html"])
+		#sub = Popen(["chromium-browser", "--kiosk", "--disable-features=TranslateUI", "--noerrdialogs", "--disable-infobars", "frontend/test-cycle.html"])
+		sub = Popen(["chromium-browser", "frontend/test-cycle.html"])
 		#sub = Popen(["chromium-browser", "frontend/test-cycle.html"])
 		def suicide(signum, frame):
 			sub.kill()

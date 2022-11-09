@@ -27,22 +27,23 @@ int main() {
   bind(server_fd, (struct sockaddr *)&server_addr, sizeof(server_addr));
   listen(server_fd, 5);
   printf("[LISTENING] Port Number: %d\n", PORT);
+  
+  client_fd = accept(server_fd, (struct sockaddr *)&client_addr, &addr_size);
+  printf("[CONNECTED] New Connection\n");
 
-  while (1) {
-    client_fd = accept(server_fd, (struct sockaddr *)&client_addr, &addr_size);
-    printf("[CONNECTED] New Connection\n");
+  while (!strcmp(buffer,"quit")) {
 
     strcpy(buffer, "Hello, This is a test message");
-    send(client_fd, buffer, strlen(buffer), 0);
+    //send(client_fd, buffer, strlen(buffer), 0);
 
     memset(buffer, '\0', sizeof(buffer));
     recv(client_fd, buffer, 1024, 0);
     printf("[CLIENT] %s\n", buffer);
 
-    close(client_fd);
-    printf("[DISCONNECTED] Connection closed\n");
 
   }
+    close(client_fd);
+    printf("[DISCONNECTED] Connection closed\n");
 
   close(server_fd);
 

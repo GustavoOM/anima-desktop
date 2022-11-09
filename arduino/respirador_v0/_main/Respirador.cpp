@@ -17,7 +17,7 @@ void Respirador::setup() {
   controle.setup();
   ensaio.setup();
 
-  entradaRasp.recebeParametrosInicializacao();
+  //entradaRasp.recebeParametrosInicializacao();
   autotestes.realizaAutotestes();
 }
 

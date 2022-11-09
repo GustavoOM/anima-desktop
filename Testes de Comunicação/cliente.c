@@ -33,8 +33,14 @@ int main(){
   bzero(buffer, 1024);
   strcpy(buffer, "HELLO, THIS IS CLIENT.");
   printf("Client: %s\n", buffer);
-  send(sock, buffer, strlen(buffer), 0);
+  while(1){
+    scanf("%s",buffer);
+    if(strcmp(buffer, "quit\n")){
+      break;
+    }
+    send(sock, buffer, strlen(buffer), 0);
 
+  }
   bzero(buffer, 1024);
   recv(sock, buffer, sizeof(buffer), 0);
   printf("Server: %s\n", buffer);

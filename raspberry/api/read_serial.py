@@ -6,38 +6,12 @@ from base import ( AUTOTESTS_2API_MSG, EXFLOW_CALIB_2API_MSG, FLUXSENS_MSG,
     SHOW_READ_SERIAL_TIMING, checksum_calc )
 from time import time
 from multiprocessing.connection import Client
-
-def process_message(msg_raw):
-    try:
-        it = time() * 1000
-        msg = msg_raw.decode("ascii")
-        et = time() * 1000
-        if msg is None:
-            return None
-        if msg[0] == "^" and msg[-3] == ';':
-            if verify_checksum(msg):
-                if SHOW_READ_SERIAL_TIMING:
-                    print("[READER] Decoding msg id[" + msg[1:3] + "]: " + "{:.0f}".format(et - it))
-                return msg[1:-3]
-            else:
-                print("[READER] Message discarded by invalid checksum", msg[-2])
-                return None
-    except UnicodeDecodeError:
-        print("[READER] Could not decode into an ascii character. Dropping message:", msg_raw)
-
-def verify_checksum(msg):
-    chunks = msg.split(',')
-    try:
-        recv_checksum_str = (chunks.pop(-1))[:-3]
-        recv_checksum = int(recv_checksum_str)
-    except:
-        print("[READER] Could not convert received checksum to int", recv_checksum_str)
-        return False
-    real_msg = ','.join(chunks)
-    calc_checksum = checksum_calc(real_msg)
-    return recv_checksum == calc_checksum
+import socket
+portSocket = 8068
 
 def forward_message(data):
+    if SHOW_READ_SERIAL:
+            print("[READER] Message received: ", data)
     data = data.split(',')
     if data[0] == "10" and len(RESPONSE_2API_MSG) == len(data):
         msg = decode_message(data, RESPONSE_2API_MSG)
@@ -78,42 +52,9 @@ def decode_post_message(data, schema, endpoint):
             et = time() * 1000
             if SHOW_READ_SERIAL_TIMING:
                 print("[READER] Posting msg id[" + str(message["MessageType"]) + "]: " + "{:.0f}".format(et - it))
-        if SHOW_READ_SERIAL:
-            print("[READER] Message received: ", message)
+        
     except ConnectionError:
         print("[READER] Could not reach API. Dropping Message.")
-
-def terminal_receive_text():
-    while ser.in_waiting <= 0:
-        pass
-    msg = ser.readline().decode("utf-8")
-    if msg[:3] == "^00":
-        return msg[6:-3].split(',')[1]
-    else:
-        return None
-
-def terminal_receive_data():
-    while ser.in_waiting <= 0:
-        pass
-    msg = ser.readline().decode("utf-8")
-    if msg[:2] == "^3":
-        schema = None
-        datatype = None
-        if msg[2] == "2":
-            schema = PRESSENS_MSG
-            datatype = "pressens"
-        elif msg[2] == "4":
-            schema = FLUXSENS_MSG
-            datatype = "fluxsens"
-        elif msg[2] == "6":
-            schema = EXAVALV_MSG
-            datatype = "exavalv"
-        elif msg[2] == "8":
-            schema = AOPVALVS_MSG
-            datatype = "aopvalvs"
-        data = (msg[1:-3].split(','))[3:]
-        if schema is not None:
-            return datatype, decode_message(data, schema)
 
 def notify_idle():
     try:
@@ -124,33 +65,46 @@ def notify_idle():
         print("[READER] Idle for a long time")
 
 def read_serial():
+    print("ENTREI NO READ SERIAL!!!!!!")
     global writer_conn
     writer_conn = Client(("localhost", 6000))
     writer_conn.send("reader")
+
+    host=socket.gethostname()
+    server_socket = socket.socket()
+    server_socket.bind((host,portSocket))
+
+    server_socket.listen(2)
+    conn,address = server_socket.accept()
 
     idlt = time() * 1000
     try:
         while True:
             it = time() * 1000
-            msg_raw = ser.readline()
+            #TCP AQUI
+            while True:
+                msg_raw = conn.recv(1024).decode()
+                if msg_raw:
+                    break
+
             if len(msg_raw) > 5:
                 if SHOW_READ_SERIAL_TIMING:
                     print("[READER] Idle: " + "{:.0f}".format(it - idlt))
-                if ser.in_waiting > 200:
-                    ser.reset_input_buffer()
-                    print("[READER] Serial buffer flushed")
-                msg = process_message(msg_raw)
-                if msg is not None:
-                    forward_message(msg)
+                if msg_raw is not None:
+                    forward_message(msg_raw)
                     et = time() * 1000
                     if SHOW_READ_SERIAL_TIMING:
-                        print("[READER] Total msg id[" + msg[0:2] + "]: " + "{:.0f}".format(et - it))
+                        print("[READER] Total msg id[" + msg_raw[0:2] + "]: " + "{:.0f}".format(et - it))
                         idlt = et
             else:
                 notify_idle()
+
+    except KeyboardInterrupt:
+        print ('KeyboardInterrupt exception is caught')
+
     finally:
-        ser.close()
         writer_conn.close()
+        conn.close()
 
 if __name__ == '__main__':
     read_serial()

@@ -9,6 +9,7 @@ FORMAT = "utf-8"
 def main():
     """ TCP Socket """
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    print("ENDERECO: ", ADDR)
     client.connect(ADDR)
 
     """ Recv data """

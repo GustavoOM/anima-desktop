@@ -9,12 +9,19 @@ from base import (
 import requests
 from requests.exceptions import ConnectionError
 
+import socket
+portSocket = 8069
+
 class Writer:
+    
     def __init__(self):
         self.api_conn = None
         self.reader_conn = None
         self.listener = Listener(("localhost", 6000))
         self.wait_queue = []
+        self.host = socket.gethostname()
+        self.client_socket = socket.socket()
+        
 
     def setup_socket_server(self):
         while self.api_conn is None or self.reader_conn is None:
@@ -44,6 +51,7 @@ class Writer:
                     self.check_response()
                     is_there_data = self.reader_conn.poll(timeout=0.01)
         finally:
+            self.client_socket.close()
             ser.close()
             self.listener.close()
 
@@ -55,7 +63,7 @@ class Writer:
                 if item["nTimout"] < 5:
                     print("[WRITER] Timeout warning, sending again:", item)
                     for _ in range(3):
-                        send_message(item["msg"])
+                        self.send_message(item["msg"])
                         sleep(0.05)
                 else:
                     self.wait_queue.remove(item)
@@ -74,13 +82,14 @@ class Writer:
                 print("[WRITER] Message sent:", msg)
             self.wait_queue.append({"id": id, "tSent": time(), "nTimout": 0, "msg": msg})
             for _ in range(3):
-                send_message(msg)
+                
+                self.send_message(msg)
                 sleep(0.05)
 
     def check_response(self):
         response = self.reader_conn.recv()
-        if SHOW_WRITE_SERIAL:
-            print("[WRITER] Response received from the reader", response)
+        #if SHOW_WRITE_SERIAL:
+            #print("[WRITER] Response received from the reader", response)
         if len(self.wait_queue) > 0:
             for item in self.wait_queue:
                 if response["idMsgRecv"] == item["id"]:
@@ -112,15 +121,13 @@ class Writer:
             return None
 
 
-def serial_send(data, schema, type):
-    msg, _ = build_message(data, schema, type)
-    for _ in range(3):
-        send_message(msg)
-        sleep(0.05)
 
-def send_message(message):
-    if VENTILATOR_MODE:
-        ser.write(message)
+
+    def send_message(self,message):
+        if VENTILATOR_MODE:
+            #TCP AQUI
+            self.client_socket.send(message)
+            #ser.write(message)
 
 def build_message(data, schema, type):
     id = MessageTime.get()
@@ -140,6 +147,9 @@ def terminal_send_text(text):
 
 def write_serial():
     writer = Writer()
+
+    writer.client_socket.connect((writer.host, portSocket))
+    
     writer.setup_socket_server()
     writer.loop()
 

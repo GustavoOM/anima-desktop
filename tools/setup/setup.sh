@@ -65,4 +65,4 @@ cd $APP_DIR/raspberry/api
 sudo chmod 666 persist.db
 
 echo "setup.sh complete"
-#sudo reboot
+%sudo reboot
