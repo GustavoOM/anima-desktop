@@ -243,14 +243,14 @@ API_URL = 'http://' + IP_ADDRESS + ':' + PORT
 
 
 ser = None
-if VENTILATOR_MODE:
-    files = []
-    path = '/dev/serial/by-id/'
-    for (dirpath, dirnames, filenames) in os.walk(path):
-        files.extend(filenames)
-        break
-    fileNameAndPath = path + files[0]
-    ser = serial.Serial(fileNameAndPath, baudrate=115200, timeout=2)
+#if VENTILATOR_MODE:
+    #files = []
+    #path = '/dev/serial/by-id/'
+    #for (dirpath, dirnames, filenames) in os.walk(path):
+    #    files.extend(filenames)
+    #    break
+    #fileNameAndPath = path + files[0]
+    #ser = serial.Serial(fileNameAndPath, baudrate=115200, timeout=2)
 
 
 """

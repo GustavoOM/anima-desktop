@@ -1,21 +1,26 @@
 import socket
-import sys
 
+IP = "127.0.0.1"
+PORT = 8083
+ADDR = (IP, PORT)
+SIZE = 1024
+FORMAT = "utf-8"
 
+def main():
+    """ TCP Socket """
+    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client.connect(ADDR)
 
-def client(port):
-    host=socket.gethostname()
-    client_socket = socket.socket()
-    client_socket.connect((host, port))
+    """ Recv data """
+    data = client.recv(SIZE).decode(FORMAT)
+    print(f"[SERVER] {data}")
 
-    message = input("----> ")
-    while message.upper().strip() != "EOT":
-        client_socket.send(message.encode())
-        data = client_socket.recv(1024).decode()
-        print("Received from server: " + data)
-        message = input("----> ")
-    client_socket.close()
+    """ Send data """
+    data += " From CLIENT"
+    client.send(data.encode(FORMAT))
+
+    """ Close connection """
+    client.close()
 
 if __name__ == "__main__":
-    port = int(sys.argv[1]) 
-    client(port)
+    main()

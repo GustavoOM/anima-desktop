@@ -19,8 +19,7 @@ class Writer:
         self.reader_conn = None
         self.listener = Listener(("localhost", 6000))
         self.wait_queue = []
-        self.host = socket.gethostname()
-        self.client_socket = socket.socket()
+        self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         
 
     def setup_socket_server(self):
@@ -103,6 +102,7 @@ class Writer:
         if VENTILATOR_MODE:
             #TCP AQUI
             self.client_socket.send(message)
+            #self.client_socket.send(message)
             #ser.write(message)
 
 def build_message(data, schema, type):
@@ -124,7 +124,11 @@ def terminal_send_text(text):
 def write_serial():
     writer = Writer()
 
-    writer.client_socket.connect((writer.host, portSocket))
+    IP = "127.0.0.1"
+    PORT = 8083
+    ADDR = (IP, PORT)
+    writer.client_socket.connect(ADDR)
+    #writer.client_socket.connect((writer.host, portSocket))
     
     writer.setup_socket_server()
     writer.loop()

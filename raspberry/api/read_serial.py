@@ -73,8 +73,10 @@ def read_serial():
     server_socket = socket.socket()
     server_socket.bind((host,portSocket))
 
+    print("TENTANDO ME CONECTAR!111111111")
     server_socket.listen(2)
     conn,address = server_socket.accept()
+    print("ME CONECTEI!!!!!!!!!!!!!!!!!")
 
     idlt = time() * 1000
     try:
