@@ -35,116 +35,110 @@ int main(){
   };
 
   printf("-+-+-+ Criando Servidor +-+-+-\n");
-  //Criando um servidor
-  int sockfd, connfd, len;
-  struct sockaddr_in servaddr, cli;
-  
-  // socket create and verification
-  sockfd = socket(AF_INET, SOCK_STREAM, 0);
-  if (sockfd == -1) {
-      printf("socket creation failed...\n");
-      exit(0);
-  }
-  else
-      printf("Socket successfully created..\n");
-  bzero(&servaddr, sizeof(servaddr));
-  
-  // assign IP, PORT
-  servaddr.sin_family = AF_INET;
-  servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-  servaddr.sin_port = htons(SERVERPORT);
-  
-  // Binding newly created socket to given IP and verification
-  if ((bind(sockfd, (SA*)&servaddr, sizeof(servaddr))) != 0) {
-      printf("socket bind failed...\n");
-      exit(0);
-  }
-  else
-      printf("Socket successfully binded..\n");
-  
-  // Now server is ready to listen and verification
-  if ((listen(sockfd, 5)) != 0) {
-      printf("Listen failed...\n");
-      exit(0);
-  }
-  else
-      printf("Server listening..\n");
-  len = sizeof(cli);
-  
-  // Accept the data packet from client and verification
-  connfd = accept(sockfd, (SA*)&cli, &len);
-  if (connfd < 0) {
-      printf("server accept failed...\n");
-      exit(0);
-  }
-  else
-      printf("server accept the client...\n");
-  
-  int k = 0;
-  for(int i = 0;i < 72000; i++){
-    for(int j = 0;j < 72000; j++){
-      k = i + j;
+
+  int sockfd_server, connfd_server, len_server;
+    struct sockaddr_in servaddr_server, cli_server;
+   
+    // socket create and verification
+    sockfd_server = socket(AF_INET, SOCK_STREAM, 0);
+    if (sockfd_server == -1) {
+        printf("socket creation failed...\n");
+        exit(0);
     }
-  }
-
-  printf("-+-+-+ Criando Cliente +-+-+-\n");
-
-  //Criando Cliente
-  int sockfd_c, connfd_c;
-  struct sockaddr_in servaddr_c, cli_c;
-
-  // socket create and verification
-  sockfd_c = socket(AF_INET, SOCK_STREAM, 0);
-  if (sockfd_c == -1) {
-      printf("socket creation failed...\n");
-      exit(0);
-  }
-  else
-      printf("Socket successfully created..\n");
-  bzero(&servaddr_c, sizeof(servaddr_c));
-
-  // assign IP, PORT
-  servaddr_c.sin_family = AF_INET;
-  servaddr_c.sin_addr.s_addr = inet_addr("127.0.0.1");
-  servaddr_c.sin_port = htons(CLIENTPORT);
-
-  // connect the client socket to server socket
-  if (connect(sockfd_c, (SA*)&servaddr_c, sizeof(servaddr_c)) != 0) {
-      printf("connection with the server failed...\n");
-      exit(0);
-  }
-  else
-      printf("connected to the server..\n");
-
-  char buffer[1024];
-  char dataRecev[1024];
-  while(1){
-    printf("VOLTEI PRO COMEÇO!\n");
-    while(1){
-      memset(buffer, '\0', sizeof(buffer));
-      recv(sockfd_c, buffer, 1024, 0);
-      
-      if(strlen(buffer) > 5){
-        break;
-      }
+    else
+        printf("Socket successfully created..\n");
+    bzero(&servaddr_server, sizeof(servaddr_server));
+   
+    // assign IP, PORT
+    servaddr_server.sin_family = AF_INET;
+    servaddr_server.sin_addr.s_addr = htonl(INADDR_ANY);
+    servaddr_server.sin_port = htons(SERVERPORT);
+   
+    // Binding newly created socket to given IP and verification
+    if ((bind(sockfd_server, (SA*)&servaddr_server, sizeof(servaddr_server))) != 0) {
+        printf("socket bind failed...\n");
+        exit(0);
     }
-    dataRecev = strtok(buffer, ";");
-    printf("[WRITER] %s\n", dataRecev);
-    //strcpy(dataSend,"Sem instruções");
-    for(int i = 0; i < 20; i++) {
-      if(!strcmp(dataRecev, listaDeInstrucoes[i])){
-        
-        strcpy(dataSend, listaDeInstrucoes[i+1]);
-        printf("[READER DENTRO]: %s\n", dataSend);
-      }
-      printf("%d - %s\n", i, dataSend);
+    else
+        printf("Socket successfully binded..\n");
+   
+    // Now server is ready to listen and verification
+    if ((listen(sockfd_server, 5)) != 0) {
+        printf("Listen failed...\n");
+        exit(0);
     }
-    printf("[READER FORA]: %s", dataSend);
-    printf("STRLEN DATASEND: %ld", strlen(dataSend));
-    //send(sock, dataSend, strlen(dataSend), 0);
-  }
-
-  close(server_fd);
-
+    else
+        printf("Server listening in port %d..\n", SERVERPORT);
+    len_server = sizeof(cli_server);
+   
+    // Accept the data packet from client and verification
+    connfd_server = accept(sockfd_server, (SA*)&cli_server, &len_server);
+    if (connfd_server < 0) {
+        printf("server accept failed...\n");
+        exit(0);
+    }
+    else
+        printf("server accept the client...\n");
+   
   
+    int k = 0;
+    for(int i = 0;i < 72000; i++){
+        for(int j = 0;j < 72000; j++){
+        k = i + j;
+        }
+    }
+
+    printf("-+-+-+ Criando Cliente +-+-+-\n");
+    
+    int sockfd_client, connfd_client;
+    struct sockaddr_in servaddr_client, cli_client;
+ 
+    // socket create and verification
+    sockfd_client = socket(AF_INET, SOCK_STREAM, 0);
+    if (sockfd_client == -1) {
+        printf("socket creation failed...\n");
+        exit(0);
+    }
+    else
+        printf("Socket successfully created in port %d..\n",CLIENTPORT);
+    bzero(&servaddr_client, sizeof(servaddr_client));
+ 
+    // assign IP, PORT
+    servaddr_client.sin_family = AF_INET;
+    servaddr_client.sin_addr.s_addr = inet_addr("127.0.0.1");
+    servaddr_client.sin_port = htons(CLIENTPORT);
+ 
+    // connect the client socket to server socket
+    if (connect(sockfd_client, (SA*)&servaddr_client, sizeof(servaddr_client))
+        != 0) {
+        printf("connection with the server failed...\n");
+        exit(0);
+    }
+    else
+        printf("connected to the server..\n");
+ 
+    printf("-+-+-+ Iniciar Comunicação +-+-+-\n");
+    char dataRecev[MAX];
+    char dataSend[MAX];
+    for (;;){
+        for (;;) {
+            bzero(dataRecev, MAX);
+            read(connfd_server, dataRecev, sizeof(dataRecev));
+            if (strcmp("", dataRecev) != 0) {
+                break;
+            }
+        }
+        strcpy(dataRecev,strtok(dataRecev, ";"));
+        printf("[WRITER]: %s\n", dataRecev);
+
+        bzero(dataSend, MAX);
+        for(int i = 0; i < 20; i++) {
+            if(!strcmp(dataRecev, listaDeInstrucoes[i])){
+                strcpy(dataSend, listaDeInstrucoes[i+1]);
+                printf("[READER]: %s\n", dataSend);
+                write(sockfd_client, dataSend, sizeof(dataSend));
+                break;
+            }
+        }
+    }
 }

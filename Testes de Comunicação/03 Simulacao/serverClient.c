@@ -135,11 +135,13 @@ int main(){
         for(int i = 0; i < 20; i++) {
             if(!strcmp(dataRecev, listaDeInstrucoes[i])){
                 strcpy(dataSend, listaDeInstrucoes[i+1]);
+                printf("[READER]: %s\n", dataSend);
+                write(sockfd_client, dataSend, sizeof(dataSend));
+                break;
             }
         }
 
-        printf("[READER]: %s\n", dataSend);
-        write(connfd_server, dataSend, sizeof(dataSend));
+        
         
     }
 

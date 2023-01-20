@@ -35,14 +35,15 @@ def writer():
     conexao, docliente = tcp.accept()
     print(f"O reader.py se conectou comigo na porta: {port_server}\n")
 
+    print("-+-+-+ Iniciar Comunicação +-+-+-\n")
 
     message = listaDeInstrucoes[0][0]
     while 1:
-        print('Sending to server: ' + message)  # show in terminal
+        print('Mandando para o serverClient: ' + message)  # show in terminal
         client_socket.send(message.encode())  # send message
-        data = client_socket.recv(1024).decode() # receive response
         sleep(1)
-        print('Received from server: ' + data)  # show in terminal
+        data = conexao.recv(1024).decode() # receive response
+        print('Recebi do reader: ' + data)  # show in terminal
         message = ""
         for i in range(len(listaDeInstrucoes)-1):
             if listaDeInstrucoes[i][1].strip() in data.strip():

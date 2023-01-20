@@ -37,19 +37,15 @@ def reader():
   conexao, docliente = tcp.accept()
   print(f"O serverClient.c se conectou comigo na porta: {port_server}\n")
 
+  print("-+-+-+ Iniciar Comunicação +-+-+-\n")
   try:
   
     while 1:
-      Mensagem_Recebida = conexao.recv(1024).decode()
-      #Mensagem recebida do cliente 
-      if testa_mensagem != Mensagem_Recebida:
-        if Mensagem_Recebida == b"EOT":
-          break  
-      #aqui verifica se exite mensagem nova  
-        print ("Recebi = ",Mensagem_Recebida," , Do cliente", docliente)
-    conexao.close()
-    
-
+      data = conexao.recv(1024).decode()
+      print('Recebi do serverClient: ' + data)
+      client_socket.send(data.encode())  # send message
+      print('Mandando para o writer: ' + data)
+  
   except KeyboardInterrupt:
     print ('KeyboardInterrupt exception is caught')
     conexao.close()
