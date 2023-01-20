@@ -121,7 +121,7 @@ class StateLogger:
 	def __init__(self):
 		self.HOURMETER_UPDATE_FREQUENCY = 60	# in seconds
 		self.HOURMETER_EMIT_FREQUENCY = 3600	# in seconds
-		self.seconds_since_last_emit = self.get_hourmeter() % self.HOURMETER_EMIT_FREQUENCY
+		self.seconds_since_last_emit = int(self.get_hourmeter()) % self.HOURMETER_EMIT_FREQUENCY
 		self.updated_at = datetime.datetime.now()
 		self.emited_at = datetime.datetime.now() - datetime.timedelta(seconds=self.seconds_since_last_emit)
 

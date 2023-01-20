@@ -1,15 +1,19 @@
+#include <stdio.h>
+#include <netdb.h>
+#include <netinet/in.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
-#include <unistd.h>
 #include <sys/socket.h>
 #include <sys/types.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <unistd.h>
+#include <arpa/inet.h> // inet_addr()
+#include <strings.h> // bzero()
+#include <unistd.h> // read(), write(), close()
+
 
 #define SERVERPORT 8083
 #define CLIENTPORT 8084
+#define MAX 80
+#define SA struct sockaddr
 
 int main(){
   char listaDeInstrucoes[40][40] = {
@@ -30,126 +34,117 @@ int main(){
     {"^15,1,16,,,7,3146355353"}, {"24,1,57832,14,0,3351889855"}
   };
 
+  printf("-+-+-+ Criando Servidor +-+-+-\n");
   //Criando um servidor
-  int server_fd, client_fd;
-  struct sockaddr_in server_addr, client_addr;
-  socklen_t addr_size;
-  char buffer[1024];
-  socklen_t tamanhoADDR;
-
-  server_fd = socket(AF_INET, SOCK_STREAM, 0);
-
-  server_addr.sin_family = AF_INET;
-  server_addr.sin_port = htons(SERVERPORT);
-  server_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-
-  bind(server_fd, (struct sockaddr *)&server_addr, sizeof(server_addr));
-  listen(server_fd, 5);
-  //printf("[OUVINDO] Porta número: %d\n", SERVERPORT);
-  client_fd = accept(server_fd, (struct sockaddr *)&client_addr, &tamanhoADDR);
-  //printf("[CONECTOU] Conectou ao writer!\n");
-
-  //Conectar no servidor
-  //printf("[TENTANDO] Se conectando com o reader na porta: %d\n", CLIENTPORT);
-  sleep(5);
+  int sockfd, connfd, len;
+  struct sockaddr_in servaddr, cli;
   
-  char *ip = "127.0.0.1";
-
-  int sock;
-  struct sockaddr_in addr;
-  
-  char buffer_client[1024];
-  int n;
-
-  sock = socket(AF_INET, SOCK_STREAM, 0);
-  if (sock < 0){
-    perror("[-]Socket error");
-    exit(1);
+  // socket create and verification
+  sockfd = socket(AF_INET, SOCK_STREAM, 0);
+  if (sockfd == -1) {
+      printf("socket creation failed...\n");
+      exit(0);
   }
-  memset(&addr, '\0', sizeof(addr));
-  addr.sin_family = AF_INET;
-  addr.sin_port = CLIENTPORT;
-  addr.sin_addr.s_addr = inet_addr(ip);
-
-  connect(sock, (struct sockaddr*)&addr, sizeof(addr));
-  //printf("[CONECTOU] Conectou ao reader!\n");
+  else
+      printf("Socket successfully created..\n");
+  bzero(&servaddr, sizeof(servaddr));
   
-  char *dataRecev;
-  char dataSend[1024];
-  bzero(dataSend, 1024);
+  // assign IP, PORT
+  servaddr.sin_family = AF_INET;
+  servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+  servaddr.sin_port = htons(SERVERPORT);
+  
+  // Binding newly created socket to given IP and verification
+  if ((bind(sockfd, (SA*)&servaddr, sizeof(servaddr))) != 0) {
+      printf("socket bind failed...\n");
+      exit(0);
+  }
+  else
+      printf("Socket successfully binded..\n");
+  
+  // Now server is ready to listen and verification
+  if ((listen(sockfd, 5)) != 0) {
+      printf("Listen failed...\n");
+      exit(0);
+  }
+  else
+      printf("Server listening..\n");
+  len = sizeof(cli);
+  
+  // Accept the data packet from client and verification
+  connfd = accept(sockfd, (SA*)&cli, &len);
+  if (connfd < 0) {
+      printf("server accept failed...\n");
+      exit(0);
+  }
+  else
+      printf("server accept the client...\n");
+  
+  int k = 0;
+  for(int i = 0;i < 72000; i++){
+    for(int j = 0;j < 72000; j++){
+      k = i + j;
+    }
+  }
 
+  printf("-+-+-+ Criando Cliente +-+-+-\n");
+
+  //Criando Cliente
+  int sockfd_c, connfd_c;
+  struct sockaddr_in servaddr_c, cli_c;
+
+  // socket create and verification
+  sockfd_c = socket(AF_INET, SOCK_STREAM, 0);
+  if (sockfd_c == -1) {
+      printf("socket creation failed...\n");
+      exit(0);
+  }
+  else
+      printf("Socket successfully created..\n");
+  bzero(&servaddr_c, sizeof(servaddr_c));
+
+  // assign IP, PORT
+  servaddr_c.sin_family = AF_INET;
+  servaddr_c.sin_addr.s_addr = inet_addr("127.0.0.1");
+  servaddr_c.sin_port = htons(CLIENTPORT);
+
+  // connect the client socket to server socket
+  if (connect(sockfd_c, (SA*)&servaddr_c, sizeof(servaddr_c)) != 0) {
+      printf("connection with the server failed...\n");
+      exit(0);
+  }
+  else
+      printf("connected to the server..\n");
+
+  char buffer[1024];
+  char dataRecev[1024];
   while(1){
-    //printf("VOLTEI PRO COMEÇO!\n");
+    printf("VOLTEI PRO COMEÇO!\n");
     while(1){
       memset(buffer, '\0', sizeof(buffer));
-      recv(client_fd, buffer, 1024, 0);
+      recv(sockfd_c, buffer, 1024, 0);
       
       if(strlen(buffer) > 5){
         break;
       }
     }
     dataRecev = strtok(buffer, ";");
-    //printf("[WRITER] %s\n", dataRecev);
+    printf("[WRITER] %s\n", dataRecev);
     //strcpy(dataSend,"Sem instruções");
     for(int i = 0; i < 20; i++) {
       if(!strcmp(dataRecev, listaDeInstrucoes[i])){
         
         strcpy(dataSend, listaDeInstrucoes[i+1]);
-        //printf("[READER DENTRO]: %s\n", dataSend);
+        printf("[READER DENTRO]: %s\n", dataSend);
       }
-      //printf("%d - %s\n", i, dataSend);
+      printf("%d - %s\n", i, dataSend);
     }
-    //printf("[READER FORA]: %s", dataSend);
+    printf("[READER FORA]: %s", dataSend);
     printf("STRLEN DATASEND: %ld", strlen(dataSend));
     //send(sock, dataSend, strlen(dataSend), 0);
   }
 
   close(server_fd);
 
-  return 0;
-} 
-/*
-
-def server():
-  portServer = 8083
-  hostServer=socket.gethostname()
-  server_socket = socket.socket()
-  server_socket.bind((hostServer,portServer))
-
-  server_socket.listen(2)
-  conn_server,address = server_socket.accept()
-
-  sleep(5)
-
-  portClient = 8084
-  hostClient = socket.gethostname()
-  client_socket = socket.socket()
-  client_socket.connect((hostClient, portClient))
   
-  try:    
-    while True:
-      while True:
-        data = conn_server.recv(1024).decode()
-        if data:
-          break
-      data = data.split(";")[0]
-      print("[WRITER]: " + str(data))
-      dataSend = "Sem instruções"
-      for instrucao in listaDeInstrucoes:
-        if instrucao[0] == data:
-          dataSend = instrucao[1]
-      print("[READER]: " + str(dataSend))
-      client_socket.send(dataSend.encode())
-
-  except KeyboardInterrupt:
-    print ('KeyboardInterrupt exception is caught')
-
-  finally: 
-    conn_server.close()
-
-
-if __name__ == "__main__":
-  #CLIENTPORT = int(sys.argv[1])
-  server()
-
-*/
+}

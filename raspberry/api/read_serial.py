@@ -7,6 +7,7 @@ from base import ( AUTOTESTS_2API_MSG, EXFLOW_CALIB_2API_MSG, FLUXSENS_MSG,
 from time import time
 from multiprocessing.connection import Client
 import socket
+import sys
 portSocket = 8084
 
 def forward_message(data):
@@ -69,14 +70,13 @@ def read_serial():
     writer_conn = Client(("localhost", 6000))
     writer_conn.send("reader")
 
-    host=socket.gethostname()
-    server_socket = socket.socket()
-    server_socket.bind((host,portSocket))
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_socket.bind(('127.0.0.1', portSocket))
 
-    print("TENTANDO ME CONECTAR!111111111")
-    server_socket.listen(2)
+    print("TENTANDO ME CONECTAR!!!!!!")
+    server_socket.listen(1)
     conn,address = server_socket.accept()
-    print("ME CONECTEI!!!!!!!!!!!!!!!!!")
+    print ("o cliente = ", address, " se conectou")
 
     idlt = time() * 1000
     try:

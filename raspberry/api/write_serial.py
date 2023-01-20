@@ -128,9 +128,9 @@ def write_serial():
     PORT = 8083
     ADDR = (IP, PORT)
     writer.client_socket.connect(ADDR)
-    #writer.client_socket.connect((writer.host, portSocket))
     
     writer.setup_socket_server()
+    sleep(5)
     writer.loop()
 
 
