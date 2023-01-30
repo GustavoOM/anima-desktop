@@ -16,14 +16,10 @@ class Sensores {
     private:
         float _leSensorAlimentacaoEletrica(int pino);
         float _leSensorAlimentacaoGas(int pino);
-        void _leSensorPressao(int idSensor, ADS1220 *conversor, Filtro *filtro);
-        void _leSensorFluxo(int idSensor, ADS1220 *conversor, Filtro *filtroFluxo, Filtro* filtroAdc);
         void _leSensorFluxoCalibracao();
         float _calculaFluxo(int idSens, float adc);
         void _defineMedidas();
         void _defineMedidasRasp();
-        void _zeraSensorPressao(int idSensor, ADS1220 *conversor);
-        void _zeraSensorFluxo(int idSensor, ADS1220 *conversor);
 
         bool _sensoresZerados;
         

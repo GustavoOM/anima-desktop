@@ -1,9 +1,12 @@
+
 #ifndef ENTRADA_RASP_H
 #define ENTRADA_RASP_H
 
 #define NUMERO_MAXIMO_CAMPOS (65)
 #define TAMANHO_MAXIMO_CAMPO (10)
 #define TAMANHO_MAXIMO_BUFFER_CHAR (NUMERO_MAXIMO_CAMPOS * TAMANHO_MAXIMO_CAMPO + 1)
+
+#include <string>
 
 class EntradaRasp {
 
@@ -12,7 +15,7 @@ class EntradaRasp {
     void loop();
     void recebeParametrosInicializacao();
     AutotestesEnum esperaRecebeComandoAutotestes();
-    String esperaRecebeTexto();
+    std::string esperaRecebeTexto();
     bool haErroComandoInvalido();
     DadosRecebidosLoop dadosRecebidosLoop;
 

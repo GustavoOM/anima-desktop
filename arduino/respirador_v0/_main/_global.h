@@ -3,9 +3,9 @@
 
 //-------< includes >-----------------------------------------------------------
 
-#include <Arduino.h>
+#include <chrono>
 #include "HistBuffer.h"
-
+#include <string>
 
 
 // ------< define operacao >----------------------------------------------------
@@ -40,12 +40,6 @@
 #define ioLigaCPU 10
 #define ioSoftKey 13
 #define ioRasp 42
-
-// Definição do ADS1220
-#define PGA 1                 // Programmable Gain = 1
-#define VREF 2.048            // Internal reference of 2.048V
-#define VFSR VREF/PGA
-#define FSR (((long int)1<<23)-1)
 
 // Define período de amostragem em [ms]
 #define TAMS 2.5
@@ -686,10 +680,8 @@ struct DadosTemporizacao
 #include "SCPressaoExp.h"
 #include "SCPressaoIns.h"
 #include "SimuladorLogico.h"
-#include "ADS1220.h"
 #include "Filtro.h"
 #include "Sensores.h"
-#include <SPI.h>
 #include "Valvula.h"
 #include "Autotestes.h"
 #include "Ensaio.h"
@@ -713,15 +705,6 @@ extern int pwmValvAr;
 extern int pwmValvO2;
 extern int pwmValvPil;
 extern bool valvSegAberta;
-
-extern ADS1220 sensorP3;
-extern ADS1220 sensorP4;
-extern ADS1220 sensorP5;
-extern ADS1220 sensorP6;
-extern ADS1220 sensorF1;
-extern ADS1220 sensorF2;
-extern ADS1220 sensorF3;
-extern ADS1220 sensorF4;
 
 extern bool paradaMaquina;
 
@@ -808,9 +791,10 @@ extern void valvulaSeguranca(bool abre);
 extern float mapFloat(float x, float in_min, float in_max, float out_min, float out_max);
 extern float mapCurvaFloat(float pontoX, float* curvaX, float* curvaY, int tamCurva);
 extern void desligaValvulas();
-extern boolean passouTempoMillis(unsigned long inicio, unsigned long intervalo);
-extern boolean passouTempoMicros(unsigned long inicio, unsigned long intervalo);
+extern bool passouTempoMillis(unsigned long inicio, unsigned long intervalo);
+extern bool passouTempoMicros(unsigned long inicio, unsigned long intervalo);
 extern float saturaFloat(float valor, float minimo, float maximo);
 extern unsigned long calculaChecksum(char* msgBuf, int fimMsg);
+extern int64_t millis();
 
 #endif

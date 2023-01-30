@@ -8,58 +8,37 @@ int pwmValvAr = 0;
 int pwmValvO2 = 0;
 int pwmValvPil = 0;
 bool valvSegAberta = false;
-
-ADS1220 sensorP3;
-ADS1220 sensorP4;
-ADS1220 sensorP5;
-ADS1220 sensorP6;
-ADS1220 sensorF1;
-ADS1220 sensorF2;
-ADS1220 sensorF3;
-ADS1220 sensorF4;
-
 bool paradaMaquina = false;
 
 //-------< functions >---------------------------------------------------------
 
 // Funções para verificar se passou determinado período de tempo
-boolean passouTempoMillis(unsigned long inicio, unsigned long intervalo) {
+bool passouTempoMillis(unsigned long inicio, unsigned long intervalo) {
   return (millis() - inicio) >= intervalo;
 }
 
-boolean passouTempoMicros(unsigned long inicio, unsigned long intervalo) {
+bool passouTempoMicros(unsigned long inicio, unsigned long intervalo) {
   return (micros() - inicio) >= intervalo;
 }
 
 // Funções para atuar nas válvulas
 void valvulaFluxoArVP1(int periodo) {
   pwmValvAr = periodo;
-#ifndef SIMULADOR
-  analogWrite(ioVP1, periodo);
-#endif
 }
 
 void valvulaFluxoOxVP2(int periodo) {
   pwmValvO2 = periodo;
-#ifndef SIMULADOR
-  analogWrite(ioVP2, periodo);
-#endif
 }
 
 void valvulaOxExalacaoVP3(int periodo) {
   pwmValvPil = periodo;
-#ifndef SIMULADOR
-  analogWrite(ioVP3, periodo);
-#endif
 }
 
 void valvulaSeguranca(bool abre) {
   if (abre) {
-    analogWrite(ioVSeguranca, 0);
     valvSegAberta = true;
   }
   else {
-    analogWrite(ioVSeguranca, 2500);
     valvSegAberta = false;
   }
 }
@@ -129,6 +108,15 @@ unsigned long calculaChecksum(char* msgBuf, int fimMsg) {
   }
   
   return soma;
+}
+
+
+int64_t millis() {
+    using namespace std::chrono;
+    milliseconds ms = duration_cast< milliseconds >(
+        system_clock::now().time_since_epoch()
+    );
+    return ms.count();
 }
 
 //-------< global types >--------------------------------------------------
