@@ -111,8 +111,6 @@ void EstrategiaPSV::actionForInicioInspiracao()
 #if defined(VERBOSE) && !defined(ARDUINO_PLOTTER)
 	SerialUSB.println("Inspira...");
 #endif
-	digitalWrite(LED_BUILTIN, HIGH); // turn the LED on (HIGH is the voltage level)
-
 	controle.iniciaInspiracao(&_localParams);
 
 	//muda estado
@@ -153,7 +151,6 @@ void EstrategiaPSV::actionForInicioExpiracao()
 #if defined(VERBOSE) && !defined(ARDUINO_PLOTTER)
 	SerialUSB.println("Expira...");
 #endif
-	digitalWrite(LED_BUILTIN, LOW);
 	controle.iniciaExpiracao();
 
 	//muda estado para

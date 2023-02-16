@@ -6,6 +6,8 @@
 #include <chrono>
 #include "HistBuffer.h"
 #include <string>
+#include <cstring>
+#include <math.h>
 
 
 // ------< define operacao >----------------------------------------------------
@@ -682,9 +684,7 @@ struct DadosTemporizacao
 #include "SimuladorLogico.h"
 #include "Filtro.h"
 #include "Sensores.h"
-#include "Valvula.h"
 #include "Autotestes.h"
-#include "Ensaio.h"
 
 //-------< types >--------------------------------------------------------------
 
@@ -775,8 +775,6 @@ extern Pid pidPressaoIns;
 extern SimuladorLogico sim;
 extern Sensores sensores;
 extern Autotestes autotestes;
-extern Valvula valvulaCal;
-extern Ensaio ensaio;
 
 
 //-------< functions >---------------------------------------------------------
@@ -796,5 +794,8 @@ extern bool passouTempoMicros(unsigned long inicio, unsigned long intervalo);
 extern float saturaFloat(float valor, float minimo, float maximo);
 extern unsigned long calculaChecksum(char* msgBuf, int fimMsg);
 extern int64_t millis();
+extern int64_t micros();
+double min(double a, double b);
+double max(double a, double b);
 
 #endif

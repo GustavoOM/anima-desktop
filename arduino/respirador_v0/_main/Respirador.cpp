@@ -15,7 +15,6 @@ void Respirador::setup() {
   entradaRasp.setup();
   saidaRasp.setup();
   controle.setup();
-  ensaio.setup();
 
   //entradaRasp.recebeParametrosInicializacao();
   autotestes.realizaAutotestes();
@@ -88,9 +87,6 @@ void Respirador::_verificaOperacao() {
 
   if (comandos->desliga == 7) {
     estrategiaTop.notifyStopVentilacao(false);
-    delay(4000);
-    digitalWrite(ioLigaFonte, LOW);
-    digitalWrite(ioLigaCPU, LOW);
     comandos->desliga = 0;
   }
 }

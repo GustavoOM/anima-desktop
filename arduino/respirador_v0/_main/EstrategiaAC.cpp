@@ -127,8 +127,6 @@ void EstrategiaAC::actionForInicioInspiracao()
 	SerialUSB.print(_localParams.tIns);
 	SerialUSB.println(" ms)");
 #endif
-	digitalWrite(LED_BUILTIN, HIGH); // turn the LED on (HIGH is the voltage level)
-
 	controle.iniciaInspiracao(&_localParams);
 
 	//muda estado
@@ -213,7 +211,6 @@ void EstrategiaAC::actionForInicioExpiracao()
 	SerialUSB.print(_tExp);
 	SerialUSB.println(" ms)");
 #endif
-	digitalWrite(LED_BUILTIN, LOW);
 	controle.iniciaExpiracao();
 
 	//muda estado para

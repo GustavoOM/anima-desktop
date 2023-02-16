@@ -87,7 +87,6 @@ AutotestesEnum EntradaRasp::esperaRecebeComandoAutotestes() {
         break;
       } 
     }
-    delay(10);
   }
 
   return comando;
@@ -122,7 +121,6 @@ void EntradaRasp::recebeParametrosInicializacao() {
       long idMsg = atol(_buffer[2]);
       _encaminhaResposta(idMsg);
     }
-    delay(10);
   }
 
 #if defined(VERBOSE) && !defined(ARDUINO_PLOTTER)
@@ -135,16 +133,6 @@ void EntradaRasp::_encaminhaResposta(unsigned int idMsg) {
 #if defined(VERBOSE) && !defined(ARDUINO_PLOTTER)
   SerialUSB.print("Resposta enviada: "); SerialUSB.println(idMsg);
 #endif
-}
-
-String EntradaRasp::esperaRecebeTexto() {
-  while (true) {
-    while(Serial1.available() <= 0);
-    String mensagem = Serial1.readStringUntil(';');
-    if (mensagem.charAt(0) == '^' && mensagem.charAt(1) == '0') {
-      return mensagem.substring(6);  
-    }
-  }
 }
 
 bool EntradaRasp::haErroComandoInvalido() {
@@ -509,35 +497,8 @@ void EntradaRasp::_parseiaMensagemValvulasAOP() {
  */
 bool EntradaRasp::_leCaracteres()
 {
-  if( !Serial1.available()) return false;
-
-  unsigned int t= millis();
-  int i = strlen(_cbuffer);
-  int n= min( TAMANHO_BLOCO_LEITOR, Serial1.available());
-#if defined(VERBOSE) && !defined(ARDUINO_PLOTTER)
-  SerialUSB.print( "==> Read "); SerialUSB.println( n);
-#endif
-
-  for( ; n> 0; n--) {
-    char c = Serial1.read();
-    _cbuffer[i++] = c; 
-    if (c == '^' && (i-1)!= 0) {
-      memset(_cbuffer, 0, sizeof(_cbuffer));
-      _cbuffer[0]= c;
-      i= 1;
-    }
-
-    /**
-     * Por seguranca, checa mas nao deve acontecer!
-     */
-    if( i>= TAMANHO_MAXIMO_BUFFER_CHAR) {
-      memset( _cbuffer, 0, sizeof( _cbuffer));
-      i= 0;
-    }
-  }
-  _cbuffer[i]= '\0';
-
-  return _cbuffer[ i-1]== ';';
+  //Fazer o socket
+  return true;
 }
 
 bool EntradaRasp::_verificaCampos() {
@@ -546,8 +507,8 @@ bool EntradaRasp::_verificaCampos() {
   int posVirgula = 0;
   bool campoVazio = false;
   int numCamposVazios = 0;
-  String strTipoMsg = "";
-  String strIdMsg = "";
+  std::string strTipoMsg = "";
+  std::string strIdMsg = "";
   for (int i=0; i < sizeof(_cbuffer); i++) {
     char c = _cbuffer[i];
 
@@ -579,17 +540,18 @@ bool EntradaRasp::_verificaCampos() {
     }
 
     if (numCampos == 0 && '0' <= c && c <= '9') {   
-      strTipoMsg.concat(c);
+      strTipoMsg = strTipoMsg + c;
+
     }
 
     if (numCampos == 2 && '0' <= c && c <= '9') {
-      strIdMsg.concat(c);
+      strIdMsg = strIdMsg + c;
     }
   }
   _posVirguChecksum = posVirgula;
 
-  int tipoMsg = strTipoMsg.toInt();
-  _idMsgAtual = strIdMsg.toInt();
+  int tipoMsg = stoi(strTipoMsg);
+  _idMsgAtual = stoi(strIdMsg);
 
   if (tipoMsg != 11 && tipoMsg != 15) {
     if (numCamposVazios != 0) {

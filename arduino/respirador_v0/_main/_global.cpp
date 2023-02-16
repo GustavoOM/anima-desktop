@@ -119,6 +119,27 @@ int64_t millis() {
     return ms.count();
 }
 
+int64_t micros() {
+    auto ms = std::chrono::duration_cast< std::chrono::microseconds >(
+        std::chrono::high_resolution_clock::now().time_since_epoch()
+    );
+    return ms.count();
+}
+
+double min(double a, double b){
+    if (a <= b)
+        return a;
+    return b;
+}
+
+double max(double a, double b){
+    if (a >= b)
+        return a;
+    return b;
+}
+
+
+
 //-------< global types >--------------------------------------------------
 
 // Metricas
@@ -183,8 +204,6 @@ Pid pidPressaoIns;
 SimuladorLogico sim;
 Sensores sensores;
 Autotestes autotestes;
-Valvula valvulaCal;
 ComandosDegrauCalibracao paramCal;
 ObjetosCalibrador objetosCal;
 ModoGrafico grafico;
-Ensaio ensaio;

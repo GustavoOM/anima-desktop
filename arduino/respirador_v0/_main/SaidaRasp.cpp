@@ -50,20 +50,18 @@ char* SaidaRasp::_iniCabecalhoNoBuffer(MsgSaidaEnum tipoMsg) {
 }
 
 void SaidaRasp::_finRodapeNoBuffer(char* p) {
+  /*
   int posVirguChecksum = int(p) - int(_buffer) - 1;
   unsigned long checksum = calculaChecksum(_buffer, posVirguChecksum);
 
   p = _adiUintNoBuffer(p, checksum);
   *(p-1)= ';';
   *p++= '\0';
+  */
 }
 
 void SaidaRasp::_enviaMensagem() {
-  Serial1.println(_buffer);
 
-#if defined(VERBOSE) && !defined(ARDUINO_PLOTTER)
-  SerialUSB.println(_buffer);
-#endif
 }
 
 void SaidaRasp::enviaResposta(unsigned int idMsg) {
@@ -214,7 +212,6 @@ void SaidaRasp::enviaParametrosValvulasAOP(ParametrosValvulasAOP dadosCalib) {
 void SaidaRasp::enviaTexto(char* texto) {
 #ifdef RESPIRADOR
 #ifndef ARDUINO_PLOTTER
-  SerialUSB.println(texto);
 #endif
   return;
 #endif
@@ -223,8 +220,6 @@ void SaidaRasp::enviaTexto(char* texto) {
 
   strcat(_buffer, texto);
   strcat(_buffer, ";");
-  Serial1.println(_buffer);
-  delay(10);
 }
 
 /**
