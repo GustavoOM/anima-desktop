@@ -14,9 +14,9 @@ class Estrategia {
     bool isModoPsvOuDerivado(ModosEnum modo);
   public:
     Estrategia();
-    virtual void loop();
-    virtual void startCiclo( ParametrosVentilacao *params);
-    virtual bool isFimDeCiclo( MandEspEnum* tipoTriggerProximo);
+    virtual void loop(){}
+    virtual void startCiclo( ParametrosVentilacao *params){}
+    virtual bool isFimDeCiclo( MandEspEnum* tipoTriggerProximo){return false;}
     void notifySwitchToExp();
     EstrategiaStatesEnum getState();
 };
