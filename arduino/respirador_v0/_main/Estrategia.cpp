@@ -13,6 +13,10 @@
 // Tempo minimo em que tem que persistir o evento para ser considerado trigger
 #define DELTA_T_TRIGGER (50)    
 //----------------------------------------------------------------------
+
+
+Estrategia::Estrategia() { }
+
 /*
  * Verifica se há indicios de inspiração. Chamado somente durante expiracao.
  */

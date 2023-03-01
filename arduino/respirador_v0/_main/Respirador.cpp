@@ -63,7 +63,6 @@ void Respirador::loop() {
   }
   else {
     if (_deveCalibrarFluxoEx) {
-      sensores.calibraFluxoEx();
       _deveCalibrarFluxoEx = false;
       _deveLoopar = true;
     }

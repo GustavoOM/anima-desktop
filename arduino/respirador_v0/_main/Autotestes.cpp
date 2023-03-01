@@ -57,6 +57,8 @@ long Autotestes::_executaTeste(AutotestesEnum teste) {
     case TESTE_CIRCUITO_PACIENTE:
       return _testeCircuitoPaciente();
   }
+
+  return 0;
 }
 
 long Autotestes::_testeComunicacao() {

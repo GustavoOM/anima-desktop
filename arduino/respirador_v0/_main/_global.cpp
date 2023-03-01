@@ -69,6 +69,8 @@ float mapCurvaFloat(float pontoX, float* curvaX, float* curvaY, int tamCurva) {
   if (pontoX >= curvaX[tamCurva-1]) {
     return curvaY[tamCurva-1];
   }
+
+  return 0;
 }
 
 void desligaValvulas() {

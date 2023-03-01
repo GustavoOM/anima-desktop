@@ -13,6 +13,7 @@ class Estrategia {
     bool cicloDetected();
     bool isModoPsvOuDerivado(ModosEnum modo);
   public:
+    Estrategia();
     virtual void loop();
     virtual void startCiclo( ParametrosVentilacao *params);
     virtual bool isFimDeCiclo( MandEspEnum* tipoTriggerProximo);
