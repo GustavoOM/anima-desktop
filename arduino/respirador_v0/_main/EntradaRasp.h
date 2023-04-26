@@ -38,9 +38,6 @@ class EntradaRasp {
     bool _campoValidoLong(char* dadoChar, TipoEntradaEnum tipoEntrada);
     bool _recebeMensagem();
     bool _leCaracteres();
-    bool _verificaCampos();
-    bool _verificaChecksum();
-    bool _preprocessa();
     void _encaminhaResposta(unsigned int idMsg);
 
     char _buffer[NUMERO_MAXIMO_CAMPOS][TAMANHO_MAXIMO_CAMPO + 1];
@@ -54,6 +51,12 @@ class EntradaRasp {
     unsigned int _idMsgAtual;
     unsigned int _idMsgAnterior;
     bool _msgAnteriorFoiAceita;
+
+    //Socket
+    int sockfd_server, connfd_server, len_server;
+    struct sockaddr_in servaddr_server, cli_server;
+
+
 };
 
 #endif

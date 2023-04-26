@@ -3,10 +3,41 @@
 
 //#define VERBOSE
 
+#define CLIENTPORT 8084
+#define MAX 80
+#define SA struct sockaddr
+
+
 void SaidaRasp::setup() {
   memset(_buffer, 0, sizeof(_buffer));
   _tUltimoGraficosAlarmes = millis();
   _tUltimoIndicadores = millis();
+
+
+  // socket create and verification
+  sockfd_client = socket(AF_INET, SOCK_STREAM, 0);
+  if (sockfd_client == -1) {
+      printf("socket creation failed...\n");
+      exit(0);
+  }
+  else
+      printf("Socket successfully created in port %d..\n",CLIENTPORT);
+  bzero(&servaddr_client, sizeof(servaddr_client));
+
+  // assign IP, PORT
+  servaddr_client.sin_family = AF_INET;
+  servaddr_client.sin_addr.s_addr = inet_addr("127.0.0.1");
+  servaddr_client.sin_port = htons(CLIENTPORT);
+
+  // connect the client socket to server socket
+  if (connect(sockfd_client, (SA*)&servaddr_client, sizeof(servaddr_client))
+      != 0) {
+      printf("connection with the server failed...\n");
+      exit(0);
+  }
+  else
+      printf("connected to the server..\n");
+ 
 }
 
 void SaidaRasp::loop() {
@@ -61,16 +92,13 @@ void SaidaRasp::_finRodapeNoBuffer(char* p) {
 }
 
 void SaidaRasp::_enviaMensagem() {
-
+  //Escrever no socket
+  printf("[READER]: %s\n", _buffer);
+  write(sockfd_client, _buffer, sizeof(_buffer));
 }
 
 void SaidaRasp::enviaResposta(unsigned int idMsg) {
-  char* p = _iniCabecalhoNoBuffer(MSG_RESPOSTA);
-
-  p = _adiUintNoBuffer(p, idMsg);
-
-  _finRodapeNoBuffer(p);
-  _enviaMensagem();
+  return;
 }
 
 void SaidaRasp::_enviaDadosGraficosAlarmes() {

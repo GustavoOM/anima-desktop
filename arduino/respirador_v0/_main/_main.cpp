@@ -8,6 +8,7 @@ void setupSimulacao();
 
 
 int main(){
+  printf("Rodando os arquivos .cpp!\n");
   setup();
   while(1){
     loop();

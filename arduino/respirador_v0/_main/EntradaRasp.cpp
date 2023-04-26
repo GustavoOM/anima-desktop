@@ -1,5 +1,9 @@
 #include "_global.h"
 
+#define SERVERPORT 8083
+#define MAX 80
+#define SA struct sockaddr
+
 //#define VERBOSE
 
 #define NUMERO_CAMPOS_VENTILACAO (26)
@@ -29,19 +33,67 @@ void EntradaRasp::setup() {
   _erroComandoInvalido = false;
   _flagCampoInvalido = false;
   dadosRecebidosLoop.operacao.stop = 7;
+
+  
+  
+  // socket create and verification
+  sockfd_server = socket(AF_INET, SOCK_STREAM, 0);
+  //fcntl(sockfd_server, F_SETFL, O_NONBLOCK);
+  if (sockfd_server == -1) {
+      printf("socket creation failed...\n");
+      exit(0);
+  }
+  else
+      printf("Socket successfully created..\n");
+  bzero(&servaddr_server, sizeof(servaddr_server));
+  
+  // assign IP, PORT
+  servaddr_server.sin_family = AF_INET;
+  servaddr_server.sin_addr.s_addr = htonl(INADDR_ANY);
+  servaddr_server.sin_port = htons(SERVERPORT);
+  
+  // Binding newly created socket to given IP and verification
+  if ((bind(sockfd_server, (SA*)&servaddr_server, sizeof(servaddr_server))) != 0) {
+      printf("socket bind failed...\n");
+      exit(0);
+  }
+  else
+      printf("Socket successfully binded..\n");
+  
+  // Now server is ready to listen and verification
+  if ((listen(sockfd_server, 5)) != 0) {
+      printf("Listen failed...\n");
+      exit(0);
+  }
+  else
+      printf("Server listening in port %d..\n", SERVERPORT);
+  len_server = sizeof(cli_server);
+  
+  // Accept the data packet from client and verification
+  connfd_server = accept(sockfd_server, (SA*)&cli_server, (socklen_t *)&len_server);
+  if (connfd_server < 0) {
+      printf("server accept failed...\n");
+      exit(0);
+  }
+  else
+      printf("server accept the client...\n");
+   
+  // Configura o socket para ser não bloqueante
+  int flags = fcntl(connfd_server, F_GETFL, 0);
+  fcntl(connfd_server, F_SETFL, flags | O_NONBLOCK);
+  
+  int k = 0;
+    for(int i = 0;i < 40000; i++){
+        for(int j = 0;j < 40000; j++){
+        k = i + j;
+        }
+    }
 }
 
 bool EntradaRasp::_recebeMensagem() {
   if (_leCaracteres()) {
-    if (_verificaCampos()) {
-      if (_verificaChecksum()) {
-        if (_preprocessa()) {
-          return true;
-        }
-      }
-    }
+    return true;
   }
-
   return false;
 }
 
@@ -73,8 +125,10 @@ void EntradaRasp::loop() {
 
 AutotestesEnum EntradaRasp::esperaRecebeComandoAutotestes() {
   AutotestesEnum comando = INDEFINIDO_TESTE;
+  
   while (true) {
     if (_recebeMensagem()) {
+      
       int tipoMsg = atoi(_buffer[0]+1);
       if (tipoMsg == 17) {
         comando = _parseiaMensagemAutotestes();
@@ -497,194 +551,14 @@ void EntradaRasp::_parseiaMensagemValvulasAOP() {
  */
 bool EntradaRasp::_leCaracteres()
 {
-  //Fazer o socket
-  return true;
-}
-
-bool EntradaRasp::_verificaCampos() {
-
-  int numCampos = 0;
-  int posVirgula = 0;
-  bool campoVazio = false;
-  int numCamposVazios = 0;
-  std::string strTipoMsg = "";
-  std::string strIdMsg = "";
-  for (int i=0; i < sizeof(_cbuffer); i++) {
-    char c = _cbuffer[i];
-
-    if ((c < '0' || c > '9') && c != ',' && c != '.' && c != '-' && c != '^' && c != ';') {
-    #if defined(VERBOSE) && !defined(ARDUINO_PLOTTER)
-      SerialUSB.print("Mensagem descartada por caracter proibido: ");
-      SerialUSB.println(_cbuffer);
-    #endif
-      return false;
-    }
-
-    if (c == ',' || c == '^') {
-      if (campoVazio) {
-        numCamposVazios++;
-      }
-      campoVazio = true;
-    } else {
-      campoVazio = false;
-    }
-
-    if (c == ',') {
-      numCampos++;
-      posVirgula = i;
-    }
-
-    if (c == ';') {
-      numCampos++;
-      break;
-    }
-
-    if (numCampos == 0 && '0' <= c && c <= '9') {   
-      strTipoMsg = strTipoMsg + c;
-
-    }
-
-    if (numCampos == 2 && '0' <= c && c <= '9') {
-      strIdMsg = strIdMsg + c;
-    }
+  //Receber do socket
+  bzero(_cbuffer, MAX);
+  //read não bloqueante
+  read(connfd_server, _cbuffer, sizeof(_cbuffer));
+  //strcpy(_cbuffer,strtok(_cbuffer, ";"));
+  if(!strcmp(_cbuffer,"") == 0){
+    printf("[WRITER]: %s\n", _cbuffer);
   }
-  _posVirguChecksum = posVirgula;
-
-  int tipoMsg = stoi(strTipoMsg);
-  _idMsgAtual = stoi(strIdMsg);
-
-  if (tipoMsg != 11 && tipoMsg != 15) {
-    if (numCamposVazios != 0) {
-    #if defined(VERBOSE) && !defined(ARDUINO_PLOTTER)
-      SerialUSB.print("Mensagem descartada por conter campos vazios: ");
-      SerialUSB.println(_cbuffer);
-    #endif
-      return false;
-    }
-  }
-
-  int numCamposEsperado = 0;
-  switch (tipoMsg) {
-    case 11: numCamposEsperado = NUMERO_CAMPOS_VENTILACAO; break;
-    case 13: numCamposEsperado = NUMERO_CAMPOS_LIMITES_ALARMES; break;
-    case 15: numCamposEsperado = NUMERO_CAMPOS_OPERACAO; break;
-    case 17: numCamposEsperado = NUMERO_CAMPOS_AUTOTESTES; break;
-    case 31: numCamposEsperado = NUMERO_CAMPOS_SENSORES_PRESSAO; break;
-    case 33: numCamposEsperado = NUMERO_CAMPOS_SENSOR_FLUXO; break;
-    case 35: numCamposEsperado = NUMERO_CAMPOS_VALVULA_EXALACAO; break;
-    case 37: numCamposEsperado = NUMERO_CAMPOS_VALVULAS_AOP; break;
-    case 41: numCamposEsperado = NUMERO_CAMPOS_PID; break;
-    case 43: numCamposEsperado = NUMERO_CAMPOS_CONTROLE; break;
-    case 45: numCamposEsperado = NUMERO_CAMPOS_DEGRAU; break;
-  }
-
-  if (numCampos != numCamposEsperado) {
-  #if defined(VERBOSE) && !defined(ARDUINO_PLOTTER)
-    SerialUSB.print("Mensagem descartada por número de campos errado: ");
-    SerialUSB.println(_cbuffer);
-    SerialUSB.print("Numero de campos esperados: ");
-    SerialUSB.println(numCamposEsperado);
-    SerialUSB.print("Numero de campos recebidos: ");
-    SerialUSB.println(numCampos);
-  #endif
-    return false;
-  }
-
-  return true;
-}
-
-bool EntradaRasp::_verificaChecksum() {
-  unsigned long checksumCalc = calculaChecksum(_cbuffer, _posVirguChecksum);
-  
-  int ini = _posVirguChecksum + 1;
-  int k = ini;
-  char checksumChar[10];
-  memset(checksumChar, 0, sizeof(checksumChar));
-  while ('0' <= _cbuffer[k] && _cbuffer[k] <= '9') {
-    checksumChar[k - ini] = _cbuffer[k];
-    k++;
-  }
-  unsigned long checksumLido = strtoul(checksumChar, NULL, 10);
-
-  if (checksumCalc != checksumLido) {
-  #if defined(VERBOSE) && !defined(ARDUINO_PLOTTER)
-    SerialUSB.print("Mensagem descartada por erro no checksum: ");
-    SerialUSB.println(_cbuffer);
-    SerialUSB.print("Posicao da virgula do checksum: ");
-    SerialUSB.println(_posVirguChecksum);
-    SerialUSB.print("Checksum calculado: ");
-    SerialUSB.println(checksumCalc);
-  #endif
-    return false;
-  }
-
-  return true;
-}
-
-/**
- * Transforma de string para lista de tokens
- */
-bool EntradaRasp::_preprocessa() {
-  bool msgAceita = true;
-
-  if (_idMsgAtual == _idMsgAnterior) {
-    if (!_msgAnteriorFoiAceita) {
-    #if defined(VERBOSE) && !defined(ARDUINO_PLOTTER)
-      SerialUSB.println("Nova mensagem com id igual ao da anterior, que ainda não foi aceita");
-    #endif
-    int i = 0;
-      while (i < TAMANHO_MAXIMO_BUFFER_CHAR && _cbuffer[i] != '\0') {
-        if (_cbuffer[i] != _cbuffer_bkp[i]) {
-          msgAceita = false;
-        #if defined(VERBOSE) && !defined(ARDUINO_PLOTTER)
-          SerialUSB.println("Conteudo da mensagem atual diferente da mensagem anterior");
-        #endif
-          break;
-        }
-        i++;
-      }
-    }
-    else {
-    #if defined(VERBOSE) && !defined(ARDUINO_PLOTTER)
-      SerialUSB.println("Mensagem anterior ja foi aceita com o mesmo id");
-    #endif
-      _encaminhaResposta(_idMsgAtual);
-      return false;
-    }
-  }
-  else {
-  #if defined(VERBOSE) && !defined(ARDUINO_PLOTTER)
-    SerialUSB.println("Id da mensagem atual diferente da mensagem anterior");
-  #endif
-    msgAceita = false;
-  }
-
-  _idMsgAnterior = _idMsgAtual;
-  if (!msgAceita) {
-    memset(_cbuffer_bkp, 0, sizeof(_cbuffer_bkp));
-    int i = 0;
-    while (i < TAMANHO_MAXIMO_BUFFER_CHAR && _cbuffer[i] != '\0') {
-      _cbuffer_bkp[i] = _cbuffer[i];
-      i++;
-    }
-  #if defined(VERBOSE) && !defined(ARDUINO_PLOTTER)
-    SerialUSB.println("Mensagem rejeitada, cbuffer backup recarregado");
-  #endif  
-    _msgAnteriorFoiAceita = false;
-    return false;
-  } else {
-  #if defined(VERBOSE) && !defined(ARDUINO_PLOTTER)
-    SerialUSB.println("Mensagem aceita");
-  #endif
-    _msgAnteriorFoiAceita = true;
-  }
-
-#if defined(VERBOSE) && !defined(ARDUINO_PLOTTER)
-  SerialUSB.print( "Lido=> [");
-  SerialUSB.print( _cbuffer);
-  SerialUSB.println( "]");
-#endif
-
   memset(_buffer, 0, sizeof(_buffer));
   // seta ponteiros
   int row = 0, col = 0;
@@ -723,4 +597,4 @@ bool EntradaRasp::_preprocessa() {
   }
   memset(_cbuffer, 0, sizeof(_cbuffer));
   return true;
-}
+} 

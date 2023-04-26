@@ -15,58 +15,50 @@ void Respirador::setup() {
   entradaRasp.setup();
   saidaRasp.setup();
   controle.setup();
-
   //entradaRasp.recebeParametrosInicializacao();
   autotestes.realizaAutotestes();
 }
 
 void Respirador::loop() {
-  if (_deveLoopar) {
 
-    _tInicioIteracao = micros();
-    if (contIter == 1) { _tInicioCiclo = micros(); }
+  _tInicioIteracao = micros();
+  if (contIter == 1) { _tInicioCiclo = micros(); }
 
   #ifndef SIMULADOR
     sensores.leSensores();
   #endif
     
-    switch (contIter) {
-      case 1:
-        entradaRasp.loop();
-        _verificaOperacao();
-        estrategiaTop.loop();
-        break;
+  switch (contIter) {
+    case 1:
+      entradaRasp.loop();
+      _verificaOperacao();
+      estrategiaTop.loop();
+      break;
 
-      case 2:
-        controle.loop();
-        break;
+    case 2:
+      controle.loop();
+      break;
 
-      case 3:
-        metricas.loop();
-        alarmes.loop();
-        break;
-      
-      case 4:
-        saidaRasp.loop();
-        break;
-    } 
+    case 3:
+      metricas.loop();
+      alarmes.loop();
+      break;
+    
+    case 4:
+      saidaRasp.loop();
+      break;
+  } 
 
-    dadosTempo.tUtilIter[contIter-1] = micros() - _tInicioIteracao;
-    if (contIter == NUM_ITER) { dadosTempo.tUtilCiclo = micros() - _tInicioCiclo; }
+  dadosTempo.tUtilIter[contIter-1] = micros() - _tInicioIteracao;
+  if (contIter == NUM_ITER) { dadosTempo.tUtilCiclo = micros() - _tInicioCiclo; }
 
-    while (!passouTempoMicros(_tInicioIteracao, TAMS*1000.0));
-    dadosTempo.tTotalIter[contIter-1] = micros() - _tInicioIteracao;
-    if (contIter == NUM_ITER) { dadosTempo.tTotalCiclo = micros() - _tInicioCiclo; }
+  while (!passouTempoMicros(_tInicioIteracao, TAMS*1000.0));
+  dadosTempo.tTotalIter[contIter-1] = micros() - _tInicioIteracao;
+  if (contIter == NUM_ITER) { dadosTempo.tTotalCiclo = micros() - _tInicioCiclo; }
 
-    contIter++;
-    if (contIter == NUM_ITER + 1) { contIter = 1; }
-  }
-  else {
-    if (_deveCalibrarFluxoEx) {
-      _deveCalibrarFluxoEx = false;
-      _deveLoopar = true;
-    }
-  }
+  contIter++;
+  if (contIter == NUM_ITER + 1) { contIter = 1; }
+
 }
 
 void Respirador::_verificaOperacao() {
@@ -76,12 +68,6 @@ void Respirador::_verificaOperacao() {
     estrategiaTop.notifyStopVentilacao(false);
   } else {
     estrategiaTop.notifyRestartVentilacao();
-  }
-
-  if (comandos->calibFluxoEx == 7) {
-    _deveLoopar = false;
-    _deveCalibrarFluxoEx = true;
-    comandos->calibFluxoEx = 0;
   }
 
   if (comandos->desliga == 7) {

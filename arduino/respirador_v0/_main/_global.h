@@ -9,6 +9,24 @@
 #include <cstring>
 #include <math.h>
 
+#include <stdio.h>
+#include <netdb.h>
+#include <netinet/in.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <arpa/inet.h> // inet_addr()
+#include <strings.h> // bzero()
+#include <unistd.h> // read(), write(), close()
+
+//#include <fcntl.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+#include <cstring>
+#include <cerrno>
+
 
 // ------< define operacao >----------------------------------------------------
 

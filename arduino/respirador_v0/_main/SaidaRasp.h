@@ -38,7 +38,12 @@ class SaidaRasp {
     char _buffer[BUFFER_SIZE];
     char tmpb[64];
     unsigned long _tUltimoGraficosAlarmes;
-    unsigned long _tUltimoIndicadores;  
+    unsigned long _tUltimoIndicadores; 
+
+    //Socket
+    int sockfd_client, connfd_client;
+    struct sockaddr_in servaddr_client, cli_client;
+ 
 };
 
 #endif
