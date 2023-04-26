@@ -26,6 +26,7 @@ void ModoVCV::loop() {
       break;
   }
 
+  printf("estadoControle.setFluxo = %.2f", estadoControle.setFluxo);
   scFluxo.loop();
   scPressaoExp.loop();
 }

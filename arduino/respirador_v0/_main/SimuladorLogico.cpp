@@ -28,6 +28,7 @@ void SimuladorLogico::loop(bool update) {
 	float far, fo2, rexp, pboc, fpac;
 
 	float correnteValvAr = pwmValvAr*200.0/4095.0;
+	printf("correnteValvAr = %.2f", correnteValvAr);
 	float correnteValvO2 = pwmValvO2*200.0/4095.0;
 	float correnteValvEx = pwmValvPil*1200.0/4095.0;
 
@@ -42,6 +43,7 @@ void SimuladorLogico::loop(bool update) {
 
   // Atualiza sensores
 	medidas.fluxoAr = far;
+	printf("medidas.fluxoAr = %.2f", medidas.fluxoAr);
 	medidas.fluxoO2 = fo2;
 	medidas.fluxoIns = far + fo2;
 	medidas.fluxoExp = (far + fo2) - fpac;

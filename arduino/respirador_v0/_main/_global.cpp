@@ -23,6 +23,7 @@ bool passouTempoMicros(unsigned long inicio, unsigned long intervalo) {
 
 // Funções para atuar nas válvulas
 void valvulaFluxoArVP1(int periodo) {
+  printf("pwmValvAr = %d", pwmValvAr);
   pwmValvAr = periodo;
 }
 
