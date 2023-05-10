@@ -317,6 +317,8 @@ void EntradaRasp::_parseiaMensagemVentilacao() {
     return;
   }
   dadosRecebidosLoop.ventilacao = dados;
+  printf("dados.modo = %d\n", dados.modo);
+  
 }
 
 void EntradaRasp::_parseiaMensagemLimitesAlarmes() {

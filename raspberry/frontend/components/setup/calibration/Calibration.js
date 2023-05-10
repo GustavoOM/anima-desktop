@@ -122,7 +122,7 @@ Vue.component('calibration', {
                 } else {
                     this.progress = data.progress;
                     
-                    if(this.progress === 10) {
+                    if(true) {
                         clearInterval(this.interval);
                         this.isActive = false;
                         this.done = true;

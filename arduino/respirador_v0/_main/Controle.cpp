@@ -44,7 +44,7 @@ void Controle::setup() {
 }
 
 void Controle::loop() {
-  
+  printf("estadoControle.modoAtual = %d\n", estadoControle.modoAtual);
   switch (estadoControle.modoAtual) {
     case MODO_VCV:
       modoVCV.loop(); break;
@@ -58,6 +58,7 @@ void Controle::loop() {
 
 void Controle::iniciaInspiracao(ParametrosVentilacao* param) {
   estadoControle.faseAtual = EM_INSPIRACAO;
+  printf("Controle::iniciaInspiracao -> param.modo = %d\n", param->modo);
   _reiniciaEstado(param);
   _recarregaParametrosVentilacao(param);
 

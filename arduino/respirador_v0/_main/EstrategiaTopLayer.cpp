@@ -24,6 +24,8 @@ void EstrategiaTopLayer::loop()
 
 void EstrategiaTopLayer::reloadParamsIfExists()
 {
+  printf("entradaRasp.dadosRecebidosLoop.ventilacao.modo = %d\n", entradaRasp.dadosRecebidosLoop.ventilacao.modo);
+  
   // copia por valor para variavel local
 	params = entradaRasp.dadosRecebidosLoop.ventilacao;
 }
@@ -88,7 +90,7 @@ void EstrategiaTopLayer::iniciaNovoCiclo()
   /**
    * Caso tenha sido ativado a manobra de fiO2, sobrescreve os parametros
    */ 
-
+  printf("EstrategiaTopLayer::iniciaNovoCiclo -> params.modo = %d", &params.modo);
 	_estrategia->startCiclo(&params);
 }
 
@@ -103,10 +105,12 @@ void EstrategiaTopLayer::step()
   // do que o tempo de loop global, que é TAMS. 
   // Mas para seguranca adcional (loop infinido) conta também 
   // o tempo corrido, e interrompe caso exceda esta condição.
-  while (!passouTempoMicros(t, TAMS*1000.0))
+  printf("t = %u\n", t);
+  while (1)
 	{
     // armazena um estado em que ja esteve
     stateFlg |= (unsigned int)_state;
+    printf("_state = %d\n", _state);
 
 		switch (_state)
 		{

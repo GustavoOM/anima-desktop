@@ -18,12 +18,15 @@ bool passouTempoMillis(unsigned long inicio, unsigned long intervalo) {
 }
 
 bool passouTempoMicros(unsigned long inicio, unsigned long intervalo) {
-  return (micros() - inicio) >= intervalo;
+  unsigned long delta = (micros() - inicio);
+  bool result = delta >= intervalo;
+  //printf("Delta: %u %i\n",delta, result);
+  return result;
 }
 
 // Funções para atuar nas válvulas
 void valvulaFluxoArVP1(int periodo) {
-  printf("pwmValvAr = %d", pwmValvAr);
+  //printf("pwmValvAr = %d\n", pwmValvAr);
   pwmValvAr = periodo;
 }
 

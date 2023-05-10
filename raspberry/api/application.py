@@ -48,7 +48,9 @@ def configure():
 	"""
 	mode_name = request.json['mode']
 	configuration = request.json['configuration']
+	#print("ENTREI NO /CONFIGURE!\n")
 	if manager.change_mode(mode_name, configuration):
+		#print("ENTREI NA CONDIÇÃO!\n")
 		writer_conn.send({"type": 11, "data": manager.next_mode.parameters})
 		configuration["mode"] = mode_name
 		manager.update(configuration)
@@ -174,6 +176,7 @@ def reset_autotests():
 
 @app.route("/test/start", methods=['POST'])
 def start_autotest():
+	
 	"""
 	Start a specific autotest. Send the test to be executed to controller. 
 	"""
@@ -184,6 +187,7 @@ def start_autotest():
 
 @app.route("/test/audio-start", methods=['POST'])
 def start_audio_autotest():
+	
 	"""
 	Play the alarm audio to its autotest. 
 	"""
@@ -194,6 +198,7 @@ def start_audio_autotest():
 
 @app.route("/test/check-<group>", methods=['GET'])
 def check_autotest(group):
+	
 	"""
 	Check if an started autotest is currently running, finished corrected or exitted with failure.
 	"""
@@ -201,12 +206,13 @@ def check_autotest(group):
 	completed, failure, message = tester.check_progress(group)
 	jsonRetorno = {"delivered": True, "id": group, "completed": completed, 
 		"failure": failure, "message":message}
-	print("/test/check-<group>\n",jsonRetorno)
+	#print("/test/check-<group>\n",jsonRetorno)
 	return jsonify(jsonRetorno)
 
 
 @app.route("/test/info", methods=['GET'])
 def test_info():
+	
 	"""
 	Get all the autotests available.
 	"""
@@ -215,6 +221,7 @@ def test_info():
 
 @app.route("/test/report", methods=['POST'])
 def report_autotest():
+	
 	"""
 	Report the result of some autotest
 	"""
@@ -261,8 +268,10 @@ def start_ex_flow_calib():
 	Start the expiratory flow calibration procedure.
 	"""
 	if request.json["exFlowCalib"]:
+		
 		writer_conn.send({"type": 15, "data": {"exFlowCalib": 7}})
 		controller.calibration.start()
+		
 		return jsonify({"delivered": True})
 	return jsonify({"delivered": False})
 

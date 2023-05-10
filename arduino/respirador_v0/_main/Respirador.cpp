@@ -29,6 +29,7 @@ void Respirador::loop() {
   #endif
     
   switch (contIter) {
+    //printf("contIter = %d\n", contIter);
     case 1:
       entradaRasp.loop();
       _verificaOperacao();

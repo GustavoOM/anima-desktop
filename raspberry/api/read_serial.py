@@ -11,6 +11,8 @@ import sys
 portSocket = 8084
 
 def forward_message(data):
+    data = data.replace("^","")
+    data = data.replace(" ","")
     if SHOW_READ_SERIAL:
             print("[READER] Message received: ", data)
     data = data.split(',')
@@ -86,6 +88,7 @@ def read_serial():
             while True:
                 msg_raw = conn.recv(1024).decode()
                 if msg_raw:
+                    print("RECEBI DO SAIDA RASP: ", msg_raw)
                     break
 
             if len(msg_raw) > 5:

@@ -20,7 +20,7 @@ class Writer:
         self.listener = Listener(("localhost", 6000))
         self.wait_queue = []
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        
+        #fcntl.fcntl(self.client_socket, fcntl.F_SETFL, fcntl.O_NONBLOCK)
 
     def setup_socket_server(self):
         while self.api_conn is None or self.reader_conn is None:
@@ -43,6 +43,7 @@ class Writer:
                 is_there_data = self.api_conn.poll(timeout=0.1)
                 if is_there_data:
                     self.transmit_message()
+
         finally:
             self.client_socket.close()
             ser.close()
@@ -60,6 +61,7 @@ class Writer:
                 
                 self.send_message(msg)
                 sleep(0.05)
+            
 
     def check_response(self):
         response = self.reader_conn.recv()

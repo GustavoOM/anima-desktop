@@ -5,6 +5,7 @@ ModoVCV::ModoVCV() { }
 
 
 void ModoVCV::loop() {
+  printf("estadoControle.faseAtual = %d\n", estadoControle.faseAtual);
   switch (estadoControle.faseAtual) {
 
     case EM_INSPIRACAO:
@@ -26,7 +27,7 @@ void ModoVCV::loop() {
       break;
   }
 
-  printf("estadoControle.setFluxo = %.2f", estadoControle.setFluxo);
+  printf("estadoControle.setFluxo = %.2f\n", estadoControle.setFluxo);
   scFluxo.loop();
   scPressaoExp.loop();
 }
