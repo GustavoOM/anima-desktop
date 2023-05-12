@@ -19,7 +19,6 @@ void EstrategiaAC::startCiclo(
 	//copia todos os parametros por valor para memoria local
 
 	_localParams = *params;
-  	printf("EstrategiaAC::startCiclo -> _localParams.modo = %d\n", _localParams.modo);
 
 	// recalcula todos os valores derivados, se precisar
 	refreshLocalParameters();
@@ -76,7 +75,6 @@ void EstrategiaAC::step()
   // do que o tempo de loop global, que é TAMS. 
   // Mas para seguranca adcional (loop infinido) conta também 
   // o tempo corrido, e interrompe caso exceda esta condição.
-	printf("tac = %u\n", t);
 	while (1) 
 	{
     // armazena um estado em que ja esteve

@@ -22,7 +22,6 @@ void SCFluxo::loop() {
   
   estadoPidFluxoAr.sensorAtual = medidas.fluxoAr;
   estadoPidFluxoO2.sensorAtual = medidas.fluxoO2;
-  printf("estadoPidFluxoAr.sensorAtual = %.2f", estadoPidFluxoAr.sensorAtual);
   
   pidFluxoAr.loop();
 	pidFluxoO2.loop();

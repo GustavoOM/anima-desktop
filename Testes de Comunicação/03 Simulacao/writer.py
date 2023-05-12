@@ -43,7 +43,6 @@ def writer():
         client_socket.send(message.encode())  # send message
         sleep(1)
         data = conexao.recv(1024).decode() # receive response
-        print('Recebi do reader: ' + data)  # show in terminal
         message = ""
         for i in range(len(listaDeInstrucoes)-1):
             if listaDeInstrucoes[i][1].strip() in data.strip():

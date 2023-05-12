@@ -44,7 +44,6 @@ void Controle::setup() {
 }
 
 void Controle::loop() {
-  printf("estadoControle.modoAtual = %d\n", estadoControle.modoAtual);
   switch (estadoControle.modoAtual) {
     case MODO_VCV:
       modoVCV.loop(); break;

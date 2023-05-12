@@ -75,7 +75,6 @@ def read_serial():
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.bind(('127.0.0.1', portSocket))
 
-    print("TENTANDO ME CONECTAR!!!!!!")
     server_socket.listen(1)
     conn,address = server_socket.accept()
     print ("o cliente = ", address, " se conectou")
@@ -88,7 +87,6 @@ def read_serial():
             while True:
                 msg_raw = conn.recv(1024).decode()
                 if msg_raw:
-                    print("RECEBI DO SAIDA RASP: ", msg_raw)
                     break
 
             if len(msg_raw) > 5:

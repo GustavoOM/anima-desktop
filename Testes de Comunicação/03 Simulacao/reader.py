@@ -42,9 +42,7 @@ def reader():
   
     while 1:
       data = conexao.recv(1024).decode()
-      print('Recebi do serverClient: ' + data)
       client_socket.send(data.encode())  # send message
-      print('Mandando para o writer: ' + data)
   
   except KeyboardInterrupt:
     print ('KeyboardInterrupt exception is caught')
