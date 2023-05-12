@@ -11,6 +11,9 @@ then
 	touch .setup && echo "Running setup.sh" && sh tools/setup/setup.sh
 fi
 
+gnome-terminal --command="bash execArduino.sh"
+
+sleep 10
 
 cd raspberry
 . animaenv/bin/activate
