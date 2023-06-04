@@ -337,13 +337,12 @@ def report_indicators():
 	return jsonify({"delivered": True})
 
 
-def start_api(audioled_signarr):
+def start_api():
 	"""
 	Function to start api.
 	"""
 	global writer_conn
 	writer_conn = Client(("localhost", 6000))
 	writer_conn.send("api")
-	controller.audioled_signarr = audioled_signarr
 	manager.restore()
 	socketio.run(app, host=IP_ADDRESS , port=PORT)

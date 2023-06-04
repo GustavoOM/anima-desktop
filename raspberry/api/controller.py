@@ -20,7 +20,6 @@ class Controller:
 		self.boundaries = boundaries
 		self.boundaries.bound(self.sensors)
 		self.triggers = {}
-		self.audioled_signarr = None
 		self.in_ventilation = False
 		self.night_mode = False
 		self.calibration = Calibration()
@@ -93,36 +92,15 @@ class Controller:
 				return {"alerts": alerts_array}
 		return None
 
-	def set_alert_audio_level(self, max_severity):
-		if self.audioled_signarr is not None:
-			if max_severity == 2:
-				self.audioled_signarr[2] = 1
-			elif max_severity == 1:
-				self.audioled_signarr[1] = 1
-			else:
-				self.audioled_signarr[2] = 0
-				self.audioled_signarr[1] = 0
-
-	def set_silence(self, value):
-		if self.in_ventilation:
-			self.audioled_signarr[0] = value
-
 	def set_graphic_pause(self, pause):
 		for graphic in self.graphics.table.values():
 			graphic.set_pause(pause)
 
 	def set_in_ventilation(self, is_in_ventilation):
 		self.in_ventilation = is_in_ventilation
-		# Disable all audio while not on ventilation
-		if not self.in_ventilation:
-			self.audioled_signarr[0] = 2
 
 	def set_night_mode(self, night_mode):
 		self.night_mode = night_mode
-		if self.night_mode:
-			self.audioled_signarr[3] = 1
-		else:
-			self.audioled_signarr[3] = 0
 
 	def notify_writer_fail(self):
 		self.comm_error = True

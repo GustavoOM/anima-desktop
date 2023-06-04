@@ -4,7 +4,6 @@ from signal import signal, SIGTERM
 from multiprocessing import Process, Array
 from multiprocessing.connection import wait
 from subprocess import Popen
-import webbrowser
 
 from sqlalchemy.sql import text
 
@@ -22,9 +21,7 @@ def kill_all(processes):
 
 def run_front():
 	try:
-		#sub = Popen(["chromium-browser", "--kiosk", "--disable-features=TranslateUI", "--noerrdialogs", "--disable-infobars", "frontend/test-cycle.html"])
-		sub = Popen(["chromium-browser", "frontend/test-cycle.html"])
-		#sub = Popen(["chromium-browser", "frontend/test-cycle.html"])
+		sub = Popen(["chromium-browser", "--kiosk", "--disable-features=TranslateUI", "--noerrdialogs", "--disable-infobars", "frontend/test-cycle.html"])
 		def suicide(signum, frame):
 			sub.kill()
 			sys.exit()
@@ -49,16 +46,8 @@ def main():
 				"front": run_front}
 	sentinels = {}
 
-	audioled_signarr = Array("i", range(4))
-	audioled_signarr[0] = 2
-	audioled_signarr[1] = 0
-	audioled_signarr[2] = 0
-
-	# Night Mode
-	audioled_signarr[3] = 0
-
 	add_process("write_messages", metadata, sentinels)
-	add_process("api", metadata, sentinels, shared=audioled_signarr)
+	add_process("api", metadata, sentinels)
 	add_process("read_messages", metadata, sentinels)
 	add_process("front", metadata, sentinels)
 
